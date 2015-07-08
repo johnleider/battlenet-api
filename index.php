@@ -4,17 +4,21 @@ require_once __DIR__.'/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
-$api_key = 'zu8dqyc8yqmnrktvr7sa2xb2fbrdegzr';
+$api_key = '';
 
 $client = new Client();
 
 $response = $client->get('https://us.api.battle.net/d3/profile/zeroskillz-1838/?locale=en_US&apikey=' . $api_key, ['verify' => false]);
-
-echo $response->getBody();
 class BattleNet
 {
+    protected $apikey = '';
+    protected $base_uri = 'api.battle.net';
+    protected $client;
+
     public function __construct()
     {
-        $this->base_url = '';
+        $this->client = new Client([
+           'base_uri' => $this->base_uri
+        ]);
     }
 }
