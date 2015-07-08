@@ -1,0 +1,13 @@
+{
+    "name": "johnleider/blizzardapi",
+    "description": "API for Blizzard's API",
+    "authors": [
+        {
+            "name": "John Leider",
+            "email": "john.j.leider@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.0"
+    }
+}
