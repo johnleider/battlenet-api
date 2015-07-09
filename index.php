@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 
 class Blizzard
 {
-    protected $apikey = '';
+    protected $apikey = 'zu8dqyc8yqmnrktvr7sa2xb2fbrdegzr';
     protected $base_uri = 'api.battle.net';
     protected $client;
     protected $region;
@@ -15,26 +15,22 @@ class Blizzard
     {
         $this->region = $region;
         $this->client = new Client([
-            'base_uri' => 'https://'.$region.'.'.$this->base_uri,
+            'base_uri' => 'https://us.api.battle.net/d3/profile/zeroskillz-1838/?locale=en_US&apikey='.$this->apikey,
             'verify'   => false
         ]);
     }
 
-    public function get(array $options)
+    public function fetch(array $options)
     {
-        $url = $this->buildUrl($options);
-        return $this->client->get($url, [
-            'query' => [
-                'locale' => 'en_US',
-                'apikey' => $this->apikey
-            ]
-        ]);
+        $response = $this->client->get('');
+
+        return $response->getBody();
     }
 
     public function buildUrl(array $options)
     {
         $profile = str_replace('#', '-', $options['profile']);
-        return $this->game.'/'.$profile.'/';
+        return $this->game.'/profile/'.$profile.'/?locale=en_US&apikey='.$this->apikey;
     }
 }
 
@@ -49,10 +45,11 @@ class Diablo extends Blizzard
 
     public function profile(array $options)
     {
-        return parent::get($options);
+        return $this->fetch($options);
     }
 }
 
 $profile = 'zeroskillz#1838';
 
-var_dump((new Diablo('us'))->profile(compact('profile')));
+$diablo = new Diablo('us');
+echo $diablo->profile(compact('profile'));
