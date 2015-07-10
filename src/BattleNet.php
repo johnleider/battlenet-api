@@ -4,30 +4,36 @@ namespace johnleider\BattleNet;
 
 use GuzzleHttp\Client;
 
-class BattleNet
+abstract class BattleNet
 {
-    protected $apikey = 'zu8dqyc8yqmnrktvr7sa2xb2fbrdegzr';
-    protected $base_uri = 'api.battle.net';
     protected $client;
-    protected $region;
+    protected $locale;
+    protected $apikey;
 
-    public function __construct($region)
+    /**
+     * Instantiate Guzzle
+     *
+     * @param $apikey
+     * @param $region
+     * @param $locale
+     */
+    public function __construct($apikey, $region, $locale)
     {
+        $this->apikey = $apikey;
+        $this->locale = $locale;
         $this->region = $region;
-        $this->client = new Client([
-            'base_uri' => 'https://us.api.battle.net/d3/profile/zeroskillz-1838/?locale=en_US&apikey='.$this->apikey,
+    }
+
+    public function get($url)
+    {
+        $query['apikey'] = $this->apikey;
+        $query['locale'] = $this->locale;
+
+        $client = new Client([
+            'base_uri' => 'https://'.$this->region.'.api.battle.net',
             'verify'   => false
         ]);
-    }
 
-    public function fetch()
-    {
-       echo 'here';
-    }
-
-    public function buildUrl(array $options)
-    {
-    $profile = str_replace('#', '-', $options['profile']);
-    return $this->game.'/profile/'.$profile.'/?locale=en_US&apikey='.$this->apikey;
+        return $client->get($url,['query' => $query]);
     }
 }
