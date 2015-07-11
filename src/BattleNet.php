@@ -26,7 +26,7 @@ abstract class BattleNet
     }
 
     /**
-     * Instantiate Guzzle and return results
+     * Instantiate Guzzle and return results as json
      *
      * @param $url
      * @param array $options
