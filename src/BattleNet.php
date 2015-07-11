@@ -29,11 +29,19 @@ abstract class BattleNet
      * Instantiate Guzzle and return results
      *
      * @param $url
+     * @param array $options
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function get($url)
+    public function get($url, $options = [])
     {
+
         $query['apikey'] = $this->apikey;
+
+        if ( ! empty($options))
+        {
+            $query['fields'] = join(',', $options);
+        }
+
         if ($this->locale)
         {
             $query['locale'] = $this->locale;
@@ -52,6 +60,11 @@ abstract class BattleNet
         return $client->get($url,['query' => $query])->getBody();
     }
 
+    /**
+     * Response with a JsonP Callback
+     *
+     * @param $callback
+     */
     public function setJsonP($callback)
     {
         $this->jsonP = $callback;

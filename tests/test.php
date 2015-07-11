@@ -2,10 +2,14 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use johnleider\BattleNet\Diablo;
+use johnleider\BattleNet\Warcraft;
 
-$battle = new Diablo('zu8dqyc8yqmnrktvr7sa2xb2fbrdegzr');
+$warcraft = new Warcraft('zu8dqyc8yqmnrktvr7sa2xb2fbrdegzr');
 
-$profile = $battle->getCareerProfile('zeroskillz#1838');
+$profile = $warcraft->getCharacterProfile('sargeras', 'Kaowa', [
+    'appearance',
+    'achievements',
+    'guild'
+]);
 
 echo $profile;
