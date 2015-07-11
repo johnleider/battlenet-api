@@ -1,12 +1,24 @@
 {
     "name": "johnleider/battlenet-api",
-    "description": "API for Blizzard's API",
+    "keywords": [
+      "battle",
+      "battlenet",
+      "battle.net",
+      "blizzard",
+      "warcraft",
+      "starcraft",
+      "diablo",
+      "wow"
+    ],
+    "description": "A package to retrieve information from Blizzard's API",
     "authors": [
         {
             "name": "John Leider",
-            "email": "john.j.leider@gmail.com"
+            "email": "john.j.leider@gmail.com",
+            "homepage": "http://www.johnleider.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "^6.0"
     },
