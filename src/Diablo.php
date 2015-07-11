@@ -67,6 +67,6 @@ class Diablo extends BattleNet
     {
         $url = $this->game.'/data/artisan/'.$artisan;
 
-        return json_decode($this->get($url));
+        return $this->get($url);
     }
 }
