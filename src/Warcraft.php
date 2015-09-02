@@ -1,5 +1,4 @@
 <?php
-
 namespace johnleider\BattleNet;
 
 class Warcraft extends BattleNet

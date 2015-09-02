@@ -1,5 +1,4 @@
 <?php
-
 namespace johnleider\BattleNet;
 
 class Starcraft extends BattleNet
