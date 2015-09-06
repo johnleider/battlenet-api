@@ -1,7 +1,9 @@
 <?php
-namespace johnleider\BattleNet;
+namespace johnleider\BattleNet\Requests;
 
 use GuzzleHttp\Client;
+use johnleider\BattleNet\Enums\Regions;
+use johnleider\BattleNet\Enums\Scopes;
 
 abstract class BattleNet
 {
@@ -31,6 +33,12 @@ abstract class BattleNet
      * @var Client
      */
     private $client;
+
+    /**
+     * Scopes for authorization
+     * @var
+     */
+    private $scopes;
 
     /**
      * The locale of the response
@@ -68,7 +76,7 @@ abstract class BattleNet
      * @param string $region
      * @param $locale
      */
-    public function __construct($apiKey, $apiSecret, $region = 'us', $locale = null)
+    public function __construct($apiKey, $apiSecret, $region = Regions::US, $locale = null)
     {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
@@ -78,16 +86,17 @@ abstract class BattleNet
     }
 
     /**
-     * Get authorization
+     * Get authorization from Battlenet
      *
      * @param $redirect
+     * @param $scopes
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function authorize($redirect)
+    public function authorize($redirect, array $scopes = array())
     {
         $query = http_build_query([
             'client_id' => $this->apiKey,
-            'scope' => 'wow.profile+sc2.profile',
+            'scope' => $this->generateScopes($scopes),
             'state' => mt_rand(1, 9999),
             'redirect_uri' => $redirect,
             'response_type' => 'code'
@@ -111,7 +120,7 @@ abstract class BattleNet
             [
                 'form_params' => [
                     'redirect_uri' => $redirect,
-                    'scope' => 'wow.profile+sc2.profile',
+                    'scope' => $this->scopes,
                     'grant_type' => 'authorization_code',
                     'code' => $code
                 ],
@@ -177,5 +186,21 @@ abstract class BattleNet
     public function setJsonP($jsonP)
     {
         $this->jsonP = $jsonP;
+    }
+
+    /**
+     * Generate scopes for authorization
+     * @param array $scopes
+     */
+    private function generateScopes(array $scopes = array())
+    {
+        if (empty($scopes)) {
+            $scopes = [
+                Scopes::WOW,
+                Scopes::SC2
+            ];
+        }
+
+        return $this->scopes = join('+', $scopes);
     }
 }

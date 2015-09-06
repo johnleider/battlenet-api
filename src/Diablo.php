@@ -1,6 +1,9 @@
 <?php
 namespace johnleider\BattleNet;
 
+use johnleider\BattleNet\Requests\BattleNet;
+use johnleider\BattleNet\Responses\Response;
+
 class Diablo extends BattleNet
 {
     /**
@@ -13,7 +16,7 @@ class Diablo extends BattleNet
     {
         $this->url = 'd3/profile/'.urlencode($battleTag).'/';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -27,7 +30,7 @@ class Diablo extends BattleNet
     {
         $this->url = 'd3/profile/'.urlencode($battleTag).'/hero/'.$id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -40,7 +43,7 @@ class Diablo extends BattleNet
     {
         $this->url = 'd3/data/item/'.$data;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -53,7 +56,7 @@ class Diablo extends BattleNet
     {
         $this->url = 'd3/data/follower/'.$follower;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -66,7 +69,7 @@ class Diablo extends BattleNet
     {
         $this->url = 'd3/data/artisan/'.$artisan;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -94,7 +97,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}barbarian";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -109,7 +112,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}crusader";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -124,7 +127,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}dh";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -139,7 +142,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}monk";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -154,7 +157,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}wd";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -169,7 +172,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}wizard";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -185,7 +188,7 @@ class Diablo extends BattleNet
 
         $this->url .= "/leaderboard/rift-{$hardcore}team-{$size}";
 
-        return $this;
+        return new Response($this->get());
     }
 
     /**
@@ -197,18 +200,17 @@ class Diablo extends BattleNet
     {
         $this->url .= '/leaderboard/achievement-points';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
      * Retrieve the season index
      * @return \Psr\Http\Message\StreamInterface
-     * @internal param $access_token
      */
     public function seasonIndex()
     {
         $this->url = '/data/d3/season/';
 
-        return $this->get();
+        return new Response($this->get());
     }
 }

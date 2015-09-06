@@ -1,6 +1,9 @@
 <?php
 namespace johnleider\BattleNet;
 
+use johnleider\BattleNet\Requests\BattleNet;
+use johnleider\BattleNet\Responses\Response;
+
 class Warcraft extends BattleNet
 {
     /**
@@ -13,7 +16,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/achievement/'.$id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -26,7 +29,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/auction/data/'.$realm;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -39,7 +42,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/battlepet/ability/'.$ability_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -52,7 +55,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/battlepet/species/'.$species_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -65,7 +68,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/battlepet/stats/'.$species_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -78,7 +81,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/challenge/'.$realm;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -90,7 +93,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/challenge/region';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -105,7 +108,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/character/'.$realm.'/'.$character_name;
 
-        return $this->get(compact('fields'));
+        return new Response($this->get(compact('fields')));
     }
 
     /**
@@ -118,7 +121,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/item/'.$item_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -130,8 +133,8 @@ class Warcraft extends BattleNet
     public function getSetItem($set_id)
     {
         $this->url = 'wow/item/set/'.$set_id;
-        
-        return $this->get();
+
+        return new Response($this->get());
     }
 
     /**
@@ -146,7 +149,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/guild/'.$realm.'/'.$guild_name;
 
-        return $this->get(compact('fields'));
+        return new Response($this->get(compact('fields')));
     }
 
     /**
@@ -159,7 +162,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/leaderboard/'.$bracket;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -172,7 +175,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/quest/'.$quest_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -184,7 +187,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/realm/status';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -197,7 +200,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/recipe/'.$recipe_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -210,7 +213,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/spell/'.$spell_id;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -222,7 +225,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/battlegroups/';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -234,7 +237,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/character/races';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -246,7 +249,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/character/classes';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -258,7 +261,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/character/achievements';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -270,7 +273,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/guild/rewards';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -282,7 +285,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/guild/perks';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -294,7 +297,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/guild/achievements';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -306,7 +309,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/item/classes';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -318,7 +321,7 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/talents';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -330,6 +333,6 @@ class Warcraft extends BattleNet
     {
         $this->url = 'wow/data/pet/types';
 
-        return $this->get();
+        return new Response($this->get());
     }
 }

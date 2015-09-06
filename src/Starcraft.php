@@ -1,6 +1,9 @@
 <?php
 namespace johnleider\BattleNet;
 
+use johnleider\BattleNet\Requests\BattleNet;
+use johnleider\BattleNet\Responses\Response;
+
 class Starcraft extends BattleNet
 {
     /**
@@ -15,7 +18,7 @@ class Starcraft extends BattleNet
     {
         $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name;
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -29,8 +32,8 @@ class Starcraft extends BattleNet
     public function getProfileLadders($id, $region, $name)
     {
         $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/ladders';
-        
-        return $this->get();
+
+        return new Response($this->get());
     }
 
     /**
@@ -45,7 +48,7 @@ class Starcraft extends BattleNet
     {
         $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/matches';
 
-        return $this->get();
+        return new Response($this->get());
     }
 
     /**
@@ -57,8 +60,8 @@ class Starcraft extends BattleNet
     public function getLadder($id)
     {
         $this->url = 'sc2/ladder/'.$id;
-        
-        return $this->get();
+
+        return new Response($this->get());
     }
 
     /**
@@ -69,8 +72,8 @@ class Starcraft extends BattleNet
     public function getAchievements()
     {
         $this->url = 'sc2/data/achievements';
-        
-        return $this->get();
+
+        return new Response($this->get());
     }
 
     /**
@@ -82,6 +85,6 @@ class Starcraft extends BattleNet
     {
         $this->url = 'sc2/data/rewards';
 
-        return $this->get();
+        return new Response($this->get());
     }
 }
