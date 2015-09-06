@@ -19,10 +19,8 @@ Example API calls:
 ```php
 // Retrieve Season Leaderboard data
 $diablo = new Diablo($key, $secret, 'us');
+$diablo->setAccessToken($accessToken);
 
-// Retrieve realm list
-$realms = $warcraft->getRealms();
-
-// Retrieve achievement details
-$achievement = $warcraft->getAchievement(2144);
+$barbarian = $diablo->season($season)->barbarian()->get();
+$barbarian_hardcore = $diablo->season($season)->barbarian('hardcore')->get();
 ```
