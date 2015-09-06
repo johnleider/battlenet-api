@@ -11,9 +11,9 @@ class Warcraft extends BattleNet
      */
     public function getAchievement($id)
     {
-        $url = 'wow/achievement/'.$id;
+        $this->url = 'wow/achievement/'.$id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -24,9 +24,9 @@ class Warcraft extends BattleNet
      */
     public function getAuctionData($realm)
     {
-        $url = 'wow/auction/data/'.$realm;
+        $this->url = 'wow/auction/data/'.$realm;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -37,9 +37,9 @@ class Warcraft extends BattleNet
      */
     public function getBattlePetAbility($ability_id)
     {
-        $url = 'wow/battlepet/ability/'.$ability_id;
+        $this->url = 'wow/battlepet/ability/'.$ability_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -50,9 +50,9 @@ class Warcraft extends BattleNet
      */
     public function getBattlePetSpecies($species_id)
     {
-        $url = 'wow/battlepet/species/'.$species_id;
+        $this->url = 'wow/battlepet/species/'.$species_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -63,9 +63,9 @@ class Warcraft extends BattleNet
      */
     public function getBattlePetStats($species_id)
     {
-        $url = 'wow/battlepet/stats/'.$species_id;
+        $this->url = 'wow/battlepet/stats/'.$species_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -76,9 +76,9 @@ class Warcraft extends BattleNet
      */
     public function getChallengeRealm($realm)
     {
-        $url = 'wow/challenge/'.$realm;
+        $this->url = 'wow/challenge/'.$realm;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -88,9 +88,9 @@ class Warcraft extends BattleNet
      */
     public function getChallengeRegion()
     {
-        $url = 'wow/challenge/region';
+        $this->url = 'wow/challenge/region';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -98,14 +98,14 @@ class Warcraft extends BattleNet
      *
      * @param $realm
      * @param $character_name
-     * @param array $options
+     * @param array $fields
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getCharacterProfile($realm, $character_name, $options = [])
+    public function getCharacterProfile($realm, $character_name, array $fields = [])
     {
-        $url = 'wow/character/'.$realm.'/'.$character_name;
+        $this->url = 'wow/character/'.$realm.'/'.$character_name;
 
-        return $this->get($url, $options);
+        return $this->get(compact('fields'));
     }
 
     /**
@@ -116,9 +116,9 @@ class Warcraft extends BattleNet
      */
     public function getItem($item_id)
     {
-        $url = 'wow/item/'.$item_id;
+        $this->url = 'wow/item/'.$item_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -129,9 +129,9 @@ class Warcraft extends BattleNet
      */
     public function getSetItem($set_id)
     {
-        $url = 'wow/item/set/'.$set_id;
+        $this->url = 'wow/item/set/'.$set_id;
         
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -139,14 +139,14 @@ class Warcraft extends BattleNet
      *
      * @param $realm
      * @param $guild_name
-     * @param array $options
+     * @param array $fields
      * @return \Psr\Http\Message\StreamInterface
      */
-    public function getGuildProfile($realm, $guild_name, $options = [])
+    public function getGuildProfile($realm, $guild_name, array $fields = [])
     {
-        $url = 'wow/guild/'.$realm.'/'.$guild_name;
+        $this->url = 'wow/guild/'.$realm.'/'.$guild_name;
 
-        return $this->get($url, $options);
+        return $this->get(compact('fields'));
     }
 
     /**
@@ -157,9 +157,9 @@ class Warcraft extends BattleNet
      */
     public function getLeaderboards($bracket)
     {
-        $url = 'wow/leaderboard/'.$bracket;
+        $this->url = 'wow/leaderboard/'.$bracket;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -170,9 +170,9 @@ class Warcraft extends BattleNet
      */
     public function getQuest($quest_id)
     {
-        $url = 'wow/quest/'.$quest_id;
+        $this->url = 'wow/quest/'.$quest_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -182,9 +182,9 @@ class Warcraft extends BattleNet
      */
     public function getRealmStatus()
     {
-        $url = 'wow/realm/status';
+        $this->url = 'wow/realm/status';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -195,9 +195,9 @@ class Warcraft extends BattleNet
      */
     public function getRecipe($recipe_id)
     {
-        $url = 'wow/recipe/'.$recipe_id;
+        $this->url = 'wow/recipe/'.$recipe_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -208,9 +208,9 @@ class Warcraft extends BattleNet
      */
     public function getSpell($spell_id)
     {
-        $url = 'wow/spell/'.$spell_id;
+        $this->url = 'wow/spell/'.$spell_id;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -220,9 +220,9 @@ class Warcraft extends BattleNet
      */
     public function getBattlegroups()
     {
-        $url = 'wow/data/battlegroups/';
+        $this->url = 'wow/data/battlegroups/';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -232,9 +232,9 @@ class Warcraft extends BattleNet
      */
     public function getCharacterRaces()
     {
-        $url = 'wow/data/character/races';
+        $this->url = 'wow/data/character/races';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -244,9 +244,9 @@ class Warcraft extends BattleNet
      */
     public function getCharacterClasses()
     {
-        $url = 'wow/data/character/classes';
+        $this->url = 'wow/data/character/classes';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -256,9 +256,9 @@ class Warcraft extends BattleNet
      */
     public function getCharacterAchievements()
     {
-        $url = 'wow/data/character/achievements';
+        $this->url = 'wow/data/character/achievements';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -268,9 +268,9 @@ class Warcraft extends BattleNet
      */
     public function getGuildRewards()
     {
-        $url = 'wow/data/guild/rewards';
+        $this->url = 'wow/data/guild/rewards';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -280,9 +280,9 @@ class Warcraft extends BattleNet
      */
     public function getGuildPerks()
     {
-        $url = 'wow/data/guild/perks';
+        $this->url = 'wow/data/guild/perks';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -292,9 +292,9 @@ class Warcraft extends BattleNet
      */
     public function getGuildAchievements()
     {
-        $url = 'wow/data/guild/achievements';
+        $this->url = 'wow/data/guild/achievements';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -304,9 +304,9 @@ class Warcraft extends BattleNet
      */
     public function getItemClasses()
     {
-        $url = 'wow/data/item/classes';
+        $this->url = 'wow/data/item/classes';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -316,9 +316,9 @@ class Warcraft extends BattleNet
      */
     public function getTalents()
     {
-        $url = 'wow/data/talents';
+        $this->url = 'wow/data/talents';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -328,8 +328,8 @@ class Warcraft extends BattleNet
      */
     public function getPetTypes()
     {
-        $url = 'wow/data/pet/types';
+        $this->url = 'wow/data/pet/types';
 
-        return $this->get($url);
+        return $this->get();
     }
 }

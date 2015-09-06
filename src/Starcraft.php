@@ -13,9 +13,9 @@ class Starcraft extends BattleNet
      */
     public function getProfile($id, $region, $name)
     {
-        $url = 'sc2/profile/'.$id.'/'.$region.'/'.$name;
+        $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name;
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -28,9 +28,9 @@ class Starcraft extends BattleNet
      */
     public function getProfileLadders($id, $region, $name)
     {
-        $url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/ladders';
+        $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/ladders';
         
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -43,9 +43,9 @@ class Starcraft extends BattleNet
      */
     public function getProfileMatches($id, $region, $name)
     {
-        $url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/matches';
+        $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/matches';
 
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -56,9 +56,9 @@ class Starcraft extends BattleNet
      */
     public function getLadder($id)
     {
-        $url = 'sc2/ladder/'.$id;
+        $this->url = 'sc2/ladder/'.$id;
         
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -68,9 +68,9 @@ class Starcraft extends BattleNet
      */
     public function getAchievements()
     {
-        $url = 'sc2/data/achievements';
+        $this->url = 'sc2/data/achievements';
         
-        return $this->get($url);
+        return $this->get();
     }
 
     /**
@@ -80,8 +80,8 @@ class Starcraft extends BattleNet
      */
     public function getRewards()
     {
-        $url = 'sc2/data/rewards';
+        $this->url = 'sc2/data/rewards';
 
-        return $this->get($url);
+        return $this->get();
     }
 }

@@ -2,7 +2,6 @@
 namespace johnleider\BattleNet;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 
 abstract class BattleNet
 {
@@ -73,7 +72,6 @@ abstract class BattleNet
     {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
-
         $this->locale = $locale;
         $this->region = $region;
         $this->client = new Client();
@@ -117,7 +115,10 @@ abstract class BattleNet
                     'grant_type' => 'authorization_code',
                     'code' => $code
                 ],
-                'auth'  => [$this->apiKey, $this->apiSecret]
+                'auth'  => [
+                    $this->apiKey,
+                    $this->apiSecret
+                ]
             ]
         );
 
@@ -138,15 +139,11 @@ abstract class BattleNet
             $query['access_token'] = $this->accessToken;
         }
 
-        if ( ! empty($options)) {
-            $query['fields'] = join(',', $options);
-        }
-
-        if ($this->locale) {
+        if ( ! is_null($this->locale)) {
             $query['locale'] = $this->locale;
         }
 
-        if ($this->jsonP) {
+        if ( ! is_null($this->jsonP)) {
             $query['callback'] = $this->jsonP;
         }
 
@@ -165,22 +162,20 @@ abstract class BattleNet
     /**
      * Set the access token
      *
-     * @param $response
+     * @param $accessToken
      */
-    public function setAccessToken($response)
+    public function setAccessToken($accessToken)
     {
-        $auth = json_decode($response);
-
-        $this->accessToken = $auth->access_token;
+        $this->accessToken = $accessToken;
     }
 
     /**
      * Response with a JsonP Callback
      *
-     * @param $callback
+     * @param $jsonP
      */
-    public function setJsonP($callback)
+    public function setJsonP($jsonP)
     {
-        $this->jsonP = $callback;
+        $this->jsonP = $jsonP;
     }
 }
