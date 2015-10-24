@@ -86,6 +86,19 @@ class Diablo extends BattleNet
     }
 
     /**
+     * Select era to query
+     *
+     * @param $era
+     * @return $this
+     */
+    public function era($era)
+    {
+        $this->url = '/data/d3/era/'.$era;
+
+        return $this;
+    }
+
+    /**
      * Retrieve barbarian rankings
      *
      * @param string $hardcore
@@ -210,6 +223,13 @@ class Diablo extends BattleNet
     public function seasonIndex()
     {
         $this->url = '/data/d3/season/';
+
+        return new Response($this->get());
+    }
+
+    public function eraIndex()
+    {
+        $this->url = '/data/d3/era/';
 
         return new Response($this->get());
     }

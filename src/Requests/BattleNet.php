@@ -179,6 +179,15 @@ abstract class BattleNet
     }
 
     /**
+     * Update region
+     * @param $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+    }
+
+    /**
      * Response with a JsonP Callback
      *
      * @param $jsonP
@@ -191,6 +200,7 @@ abstract class BattleNet
     /**
      * Generate scopes for authorization
      * @param array $scopes
+     * @return string
      */
     private function generateScopes(array $scopes = array())
     {
