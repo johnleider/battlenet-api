@@ -198,6 +198,16 @@ abstract class BattleNet
     }
 
     /**
+     * Set the region
+     *
+     * @param $region
+     */
+    public function setRegion($region)
+    {
+        $this->region = $region;
+    }
+
+    /**
      * Generate scopes for authorization
      * @param array $scopes
      * @return string
