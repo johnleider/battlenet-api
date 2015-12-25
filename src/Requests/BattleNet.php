@@ -144,15 +144,15 @@ abstract class BattleNet
     {
         $query['apikey'] = $this->apiKey;
 
-        if ( ! is_null($this->accessToken)) {
+        if (! is_null($this->accessToken)) {
             $query['access_token'] = $this->accessToken;
         }
 
-        if ( ! is_null($this->locale)) {
+        if (! is_null($this->locale)) {
             $query['locale'] = $this->locale;
         }
 
-        if ( ! is_null($this->jsonP)) {
+        if (! is_null($this->jsonP)) {
             $query['callback'] = $this->jsonP;
         }
 

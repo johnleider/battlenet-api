@@ -7,6 +7,11 @@ use johnleider\BattleNet\Responses\Response;
 class Diablo extends BattleNet
 {
     /**
+     * Hardcore string
+     */
+    public $hardcore = '';
+
+    /**
      * Get Diablo Profile
      *
      * @param $battleTag
@@ -104,11 +109,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function barbarian($hardcore = '')
+    public function barbarian()
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}barbarian";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}barbarian";
 
         return new Response($this->get());
     }
@@ -119,11 +122,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function crusader($hardcore = '')
+    public function crusader()
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}crusader";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}crusader";
 
         return new Response($this->get());
     }
@@ -134,11 +135,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function demonhunter($hardcore = '')
+    public function demonhunter()
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}dh";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}dh";
 
         return new Response($this->get());
     }
@@ -149,11 +148,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function monk($hardcore = '')
+    public function monk()
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}monk";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}monk";
 
         return new Response($this->get());
     }
@@ -164,11 +161,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function witchdoctor($hardcore = '')
+    public function witchdoctor()
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}wd";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}wd";
 
         return new Response($this->get());
     }
@@ -179,11 +174,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function wizard($hardcore = '')
+    public function wizard()
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}wizard";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}wizard";
 
         return new Response($this->get());
     }
@@ -195,11 +188,9 @@ class Diablo extends BattleNet
      * @param string $hardcore
      * @return $this
      */
-    public function team($size, $hardcore = '')
+    public function team($size)
     {
-        if ( ! empty($hardcore)) $hardcore .= '-';
-
-        $this->url .= "/leaderboard/rift-{$hardcore}team-{$size}";
+        $this->url .= "/leaderboard/rift-{$this->hardcore}team-{$size}";
 
         return new Response($this->get());
     }
@@ -218,6 +209,7 @@ class Diablo extends BattleNet
 
     /**
      * Retrieve the season index
+     *
      * @return \Psr\Http\Message\StreamInterface
      */
     public function seasonIndex()
@@ -227,10 +219,35 @@ class Diablo extends BattleNet
         return new Response($this->get());
     }
 
+    /**
+     * Retrieve the era index
+     *
+     * @return \Psr\Http\Message\StreamInterface
+     */
     public function eraIndex()
     {
         $this->url = '/data/d3/era/';
 
         return new Response($this->get());
+    }
+
+    /**
+     * Set the query to hardcore
+     */
+    public function softcore()
+    {
+        $this->hardcore = '';
+
+        return $this;
+    }
+
+    /**
+     * Set the query to hardcore
+     */
+    public function hardcore()
+    {
+        $this->hardcore = 'hardcore-';
+
+        return $this;
     }
 }
