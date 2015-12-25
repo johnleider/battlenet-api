@@ -179,15 +179,6 @@ abstract class BattleNet
     }
 
     /**
-     * Update region
-     * @param $region
-     */
-    public function setRegion($region)
-    {
-        $this->region = $region;
-    }
-
-    /**
      * Response with a JsonP Callback
      *
      * @param $jsonP
