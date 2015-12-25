@@ -21,6 +21,9 @@ Example API calls:
 $diablo = new Diablo($key, $secret, 'us');
 $diablo->setAccessToken($accessToken);
 
-$barbarian = $diablo->season($season)->barbarian()->get();
-$barbarian_hardcore = $diablo->season($season)->barbarian('hardcore')->get();
+$barbarian = $diablo->season($season)->barbarian();
+$barbarian_hardcore = $diablo->season($season)->hardcore()->barbarian();
+
+$profile = $diablo->careerProfile('battle_tag');
+$hero = $diablo->hero('battle_tag', 'id');
 ```
