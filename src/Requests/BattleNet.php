@@ -3,9 +3,12 @@ namespace johnleider\BattleNet\Requests;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Pool;
+use GuzzleHttp\Promise;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Stream;
 use johnleider\BattleNet\Enums\Regions;
 use johnleider\BattleNet\Enums\Scopes;
+use Psr\Http\Message\StreamInterface;
 
 abstract class BattleNet
 {
@@ -64,12 +67,17 @@ abstract class BattleNet
     protected $region;
 
     /**
-     * The designated url for the query
+     * The designated uri for the query
      *
      * @var
      */
-    protected $url = [];
+    protected $uris = [];
 
+    /**
+     * The current query params
+     *
+     * @var array
+     */
     protected $query = [];
 
     /**
@@ -77,11 +85,15 @@ abstract class BattleNet
      *
      * @param $apiKey
      * @param $apiSecret
-     * @param string $region
+     * @param $region
      * @param $locale
      */
-    public function __construct($apiKey, $apiSecret, $region = Regions::US, $locale = null)
-    {
+    public function __construct(
+        string $apiKey,
+        string $apiSecret,
+        string $region = Regions::US,
+        $locale = null
+    ) {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
         $this->locale = $locale;
@@ -94,9 +106,9 @@ abstract class BattleNet
      *
      * @param $redirect
      * @param $scopes
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function authorize($redirect, array $scopes = array())
+    public function authorize(string $redirect, array $scopes = [])
     {
         $query = http_build_query([
             'client_id' => $this->apiKey,
@@ -115,9 +127,9 @@ abstract class BattleNet
      *
      * @param $redirect
      * @param $code
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function token($redirect, $code)
+    public function token(string $redirect, string $code) : StreamInterface
     {
         $response = $this->client->post(
             'https://'.$this->region.'.battle.net/oauth/token',
@@ -142,9 +154,9 @@ abstract class BattleNet
      * Instantiate Guzzle and return results as json
      *
      * @param array $options
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function get($options = [])
+    public function get(array $options = []) : StreamInterface
     {
         $query['apikey'] = $this->apiKey;
 
@@ -162,50 +174,56 @@ abstract class BattleNet
 
         $this->query = array_merge($query, $options);
 
-        $response = count($this->url == 1)
+        $response = count($this->uris) == 1
             ? $this->first()
             : $this->all();
 
-        return $response->getBody();
+        return $response;
     }
 
+    /**
+     * Return the first uri
+     *
+     * @return string
+     */
     public function first()
     {
-        return $this->client->get(
-            'https://'.$this->region.'.api.battle.net/'.$this->url[0],
-            [
-                'query' => $this->query
-            ]
+        return json_decode(
+            $this->client->get(
+                $this->getBaseUri(array_shift($this->uris))
+            )->getBody()->getContents()
         );
     }
 
     /**
-     * @return \GuzzleHttp\Promise\Promise|\GuzzleHttp\Promise\PromiseInterface
+     * Return all uris as promises
+     *
+     * @return PromiseInterface
      */
-    public function all()
+    public function all() : PromiseInterface
     {
-        $requests = function() {
-            foreach ($this->url as $url) {
-                yield new Request('GET', $url,[
-                    'query' => $this->query
-                ]);
+        $response = [];
+
+        $requests = function ($uris) {
+            foreach ($uris as $uri) {
+                yield new Request('GET',
+                    $this->getBaseUri($uri)
+                );
             }
         };
 
-        $pool = new Pool($this->client, $requests(100), [
-            'concurrency' => 5,
-            'fulfilled' => function ($response, $index) {
-                return $response;
-            },
-            'rejected' => function ($reason, $index) {
-                // this is delivered each failed request
+        $pool = new Pool($this->client, $requests($this->uris), [
+            'fulfilled' => function ($data) use (&$response) {
+                $data = json_decode($data->getBody()->getContents());
+
+                $response[] = $data;
             },
         ]);
 
         $promise = $pool->promise();
         $promise->wait();
 
-        return $promise;
+        return $response;
     }
 
     /**
@@ -213,7 +231,7 @@ abstract class BattleNet
      *
      * @param $accessToken
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken(string $accessToken)
     {
         $this->accessToken = $accessToken;
     }
@@ -223,7 +241,7 @@ abstract class BattleNet
      *
      * @param $jsonP
      */
-    public function setJsonP($jsonP)
+    public function setJsonP(string $jsonP)
     {
         $this->jsonP = $jsonP;
     }
@@ -233,7 +251,7 @@ abstract class BattleNet
      *
      * @param $region
      */
-    public function setRegion($region)
+    public function setRegion(string $region)
     {
         $this->region = $region;
     }
@@ -253,5 +271,20 @@ abstract class BattleNet
         }
 
         return $this->scopes = join('+', $scopes);
+    }
+
+    /**
+     * Return base uri
+     *
+     * @param $uri
+     * @return string
+     */
+    private function getBaseUri(string $uri = '')
+    {
+        if (! is_null($this->query)) {
+            $query = '?'.http_build_query($this->query);
+        }
+
+        return 'https://'.$this->region.'.api.battle.net/'.$uri.$query;
     }
 }

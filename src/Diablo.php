@@ -2,24 +2,32 @@
 namespace johnleider\BattleNet;
 
 use johnleider\BattleNet\Requests\BattleNet;
-use johnleider\BattleNet\Responses\Response;
 
 class Diablo extends BattleNet
 {
     /**
-     * Hardcore string
+     * The query mode {hardcore/softcore}
+     *
+     * @var string
      */
-    public $hardcore = '';
+    public $mode;
+
+    /**
+     * Hardcore boolean
+     *
+     * @var boolean
+     */
+    public $hardcore;
 
     /**
      * Get Diablo Profile
      *
      * @param $battleTag
-     * @return mixed
+     * @return Diablo
      */
-    public function careerProfile($battleTag)
+    public function careerProfile($battleTag) : Diablo
     {
-        $this->url[] = 'd3/profile/'.urlencode($battleTag).'/';
+        $this->uris[] = 'd3/profile/'.urlencode($battleTag).'/';
 
         return $this;
     }
@@ -29,11 +37,11 @@ class Diablo extends BattleNet
      *
      * @param $battleTag
      * @param $id
-     * @return mixed
+     * @return Diablo
      */
-    public function hero($battleTag, $id)
+    public function hero($battleTag, $id) : Diablo
     {
-        $this->url[] = 'd3/profile/'.urlencode($battleTag).'/hero/'.$id;
+        $this->uris[] = 'd3/profile/'.urlencode($battleTag).'/hero/'.$id;
 
         return $this;
     }
@@ -42,11 +50,11 @@ class Diablo extends BattleNet
      * Get Item Information
      *
      * @param $data
-     * @return mixed
+     * @return Diablo
      */
-    public function item($data)
+    public function item($data) : Diablo
     {
-        $this->url[] = 'd3/data/item/'.$data;
+        $this->uris[] = 'd3/data/item/'.$data;
 
         return $this;
     }
@@ -55,11 +63,11 @@ class Diablo extends BattleNet
      * Get Follower Information
      *
      * @param $follower
-     * @return mixed
+     * @return Diablo
      */
-    public function follower($follower)
+    public function follower($follower) : Diablo
     {
-        $this->url[] = 'd3/data/follower/'.$follower;
+        $this->uris[] = 'd3/data/follower/'.$follower;
 
         return $this;
     }
@@ -68,11 +76,11 @@ class Diablo extends BattleNet
      * Get Artisan Information
      *
      * @param $artisan
-     * @return mixed
+     * @return Diablo
      */
-    public function artisan($artisan)
+    public function artisan($artisan) : Diablo
     {
-        $this->url[] = 'd3/data/artisan/'.$artisan;
+        $this->uris[] = 'd3/data/artisan/'.$artisan;
 
         return $this;
     }
@@ -81,11 +89,11 @@ class Diablo extends BattleNet
      * Select season to query
      *
      * @param $season
-     * @return $this
+     * @return Diablo
      */
-    public function season($season)
+    public function season($season) : Diablo
     {
-        $this->url[] = '/data/d3/season/'.$season;
+        $this->mode = '/data/d3/season/'.$season;
 
         return $this;
     }
@@ -94,11 +102,11 @@ class Diablo extends BattleNet
      * Select era to query
      *
      * @param $era
-     * @return $this
+     * @return Diablo
      */
-    public function era($era)
+    public function era($era) : Diablo
     {
-        $this->url[] = '/data/d3/era/'.$era;
+        $this->mode = '/data/d3/era/'.$era;
 
         return $this;
     }
@@ -106,12 +114,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve barbarian rankings
      *
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function barbarian()
+    public function barbarian() : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}barbarian";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}barbarian";
 
         return $this;
     }
@@ -119,12 +126,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve crusader rankings
      *
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function crusader()
+    public function crusader() : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}crusader";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}crusader";
 
         return $this;
     }
@@ -132,12 +138,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve demonhunter rankings
      *
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function demonhunter()
+    public function demonhunter() : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}dh";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}dh";
 
         return $this;
     }
@@ -145,12 +150,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve monk rankings
      *
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function monk()
+    public function monk() : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}monk";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}monk";
 
         return $this;
     }
@@ -158,12 +162,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve witchdoctor rankings
      *
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function witchdoctor()
+    public function witchdoctor() : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}wd";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}wd";
 
         return $this;
     }
@@ -171,12 +174,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve wizard rankings
      *
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function wizard()
+    public function wizard() : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}wizard";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}wizard";
 
         return $this;
     }
@@ -185,12 +187,11 @@ class Diablo extends BattleNet
      * Retrieve team rankings by size
      *
      * @param $size
-     * @param string $hardcore
-     * @return $this
+     * @return Diablo
      */
-    public function team($size)
+    public function team($size) : Diablo
     {
-        $this->url .= "/leaderboard/rift-{$this->hardcore}team-{$size}";
+        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}team-{$size}";
 
         return $this;
     }
@@ -198,11 +199,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve achievement point rankings
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return Diablo
      */
-    public function achievementPoints()
+    public function achievementPoints() : Diablo
     {
-        $this->url .= '/leaderboard/achievement-points';
+        $this->uris[] = $this->mode.'/leaderboard/achievement-points';
 
         return $this;
     }
@@ -210,11 +211,11 @@ class Diablo extends BattleNet
     /**
      * Retrieve the season index
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return Diablo
      */
-    public function seasonIndex()
+    public function seasonIndex() : Diablo
     {
-        $this->url[] = '/data/d3/season/';
+        $this->uris[] = '/data/d3/season/';
 
         return $this;
     }
@@ -222,32 +223,46 @@ class Diablo extends BattleNet
     /**
      * Retrieve the era index
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return Diablo
      */
-    public function eraIndex()
+    public function eraIndex() : Diablo
     {
-        $this->url[] = '/data/d3/era/';
+        $this->uris[] = '/data/d3/era/';
+
+        return $this;
+    }
+
+    /**
+     * Set the query to softcore
+     *
+     * @return Diablo
+     */
+    public function softcore() : Diablo
+    {
+        $this->hardcore = false;
 
         return $this;
     }
 
     /**
      * Set the query to hardcore
+     *
+     * @return Diablo
      */
-    public function softcore()
+    public function hardcore() : Diablo
     {
-        $this->hardcore = '';
+        $this->hardcore = true;
 
         return $this;
     }
 
     /**
-     * Set the query to hardcore
+     * Return character type string
      */
-    public function hardcore()
+    public function isHardcore() : string
     {
-        $this->hardcore = 'hardcore-';
-
-        return $this;
+        return $this->hardcore
+            ? 'hardcore-'
+            : '';
     }
 }

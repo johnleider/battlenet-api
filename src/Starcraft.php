@@ -2,7 +2,7 @@
 namespace johnleider\BattleNet;
 
 use johnleider\BattleNet\Requests\BattleNet;
-use johnleider\BattleNet\Responses\Response;
+use Psr\Http\Message\StreamInterface;
 
 class Starcraft extends BattleNet
 {
@@ -12,13 +12,13 @@ class Starcraft extends BattleNet
      * @param $id
      * @param $region
      * @param $name
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getProfile($id, $region, $name)
+    public function getProfile(string $id, string $region, string $name) : StreamInterface
     {
-        $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name;
+        $this->uris[] = 'sc2/profile/'.$id.'/'.$region.'/'.$name;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -27,13 +27,13 @@ class Starcraft extends BattleNet
      * @param $id
      * @param $region
      * @param $name
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getProfileLadders($id, $region, $name)
+    public function getProfileLadders(string $id, string $region, string $name) : StreamInterface
     {
-        $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/ladders';
+        $this->uris[] = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/ladders';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -42,49 +42,49 @@ class Starcraft extends BattleNet
      * @param $id
      * @param $region
      * @param $name
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getProfileMatches($id, $region, $name)
+    public function getProfileMatches(string $id, string $region, string $name) : StreamInterface
     {
-        $this->url = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/matches';
+        $this->uris[] = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/matches';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get a Ladder's Information
      *
      * @param $id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getLadder($id)
+    public function getLadder($id) : StreamInterface
     {
-        $this->url = 'sc2/ladder/'.$id;
+        $this->uris[] = 'sc2/ladder/'.$id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Achievements List
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getAchievements()
+    public function getAchievements() : StreamInterface
     {
-        $this->url = 'sc2/data/achievements';
+        $this->uris[] = 'sc2/data/achievements';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Rewards List
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getRewards()
+    public function getRewards() : StreamInterface
     {
-        $this->url = 'sc2/data/rewards';
+        $this->uris[] = 'sc2/data/rewards';
 
-        return new Response($this->get());
+        return $this;
     }
 }

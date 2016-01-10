@@ -10,90 +10,90 @@ class Warcraft extends BattleNet
      * Get Achievement Data
      *
      * @param $id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getAchievement($id)
+    public function getAchievement(string $id) : StreamInterface
     {
-        $this->url = 'wow/achievement/'.$id;
+        $this->uris[] = 'wow/achievement/'.$id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Auction Data
      *
      * @param $realm
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getAuctionData($realm)
+    public function getAuctionData(string $realm) : StreamInterface
     {
-        $this->url = 'wow/auction/data/'.$realm;
+        $this->uris[] = 'wow/auction/data/'.$realm;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Battle Pet Ability Information
      *
      * @param $ability_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getBattlePetAbility($ability_id)
+    public function getBattlePetAbility(string $ability_id) : StreamInterface
     {
-        $this->url = 'wow/battlepet/ability/'.$ability_id;
+        $this->uris[] = 'wow/battlepet/ability/'.$ability_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Battle Pet Species Information
      *
      * @param $species_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getBattlePetSpecies($species_id)
+    public function getBattlePetSpecies(string $species_id) : StreamInterface
     {
-        $this->url = 'wow/battlepet/species/'.$species_id;
+        $this->uris[] = 'wow/battlepet/species/'.$species_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Battle Pet Stats Information
      *
      * @param $species_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getBattlePetStats($species_id)
+    public function getBattlePetStats(string $species_id) : StreamInterface
     {
-        $this->url = 'wow/battlepet/stats/'.$species_id;
+        $this->uris[] = 'wow/battlepet/stats/'.$species_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Challenge Leaderboards for a Realm
      *
      * @param $realm
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getChallengeRealm($realm)
+    public function getChallengeRealm(string $realm) : StreamInterface
     {
-        $this->url = 'wow/challenge/'.$realm;
+        $this->uris[] = 'wow/challenge/'.$realm;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Challenge Leaderboards for the Region
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getChallengeRegion()
+    public function getChallengeRegion() : StreamInterface
     {
-        $this->url = 'wow/challenge/region';
+        $this->uris[] = 'wow/challenge/region';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -102,39 +102,39 @@ class Warcraft extends BattleNet
      * @param $realm
      * @param $character_name
      * @param array $fields
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getCharacterProfile($realm, $character_name, array $fields = [])
+    public function getCharacterProfile(string $realm, string $character_name, array $fields = []) : StreamInterface
     {
-        $this->url = 'wow/character/'.$realm.'/'.$character_name;
+        $this->uris[] = 'wow/character/'.$realm.'/'.$character_name.'?'.http_build_query($fields);
 
-        return new Response($this->get(compact('fields')));
+        return $this;
     }
 
     /**
      * Get Item Information
      *
      * @param $item_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getItem($item_id)
+    public function getItem(string $item_id) : StreamInterface
     {
-        $this->url = 'wow/item/'.$item_id;
+        $this->uris[] = 'wow/item/'.$item_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Set Item Information
      *
      * @param $set_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getSetItem($set_id)
+    public function getSetItem(string $set_id) : StreamInterface
     {
-        $this->url = 'wow/item/set/'.$set_id;
+        $this->uris[] = 'wow/item/set/'.$set_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -143,196 +143,196 @@ class Warcraft extends BattleNet
      * @param $realm
      * @param $guild_name
      * @param array $fields
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getGuildProfile($realm, $guild_name, array $fields = [])
+    public function getGuildProfile(string $realm, string $guild_name, array $fields = []) : StreamInterface
     {
-        $this->url = 'wow/guild/'.$realm.'/'.$guild_name;
+        $this->uris[] = 'wow/guild/'.$realm.'/'.$guild_name.'?'.http_build_query($fields);
 
-        return new Response($this->get(compact('fields')));
+        return $this;
     }
 
     /**
      * Get Leaderboard Information
      *
      * @param $bracket
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getLeaderboards($bracket)
+    public function getLeaderboards(string $bracket) : StreamInterface
     {
-        $this->url = 'wow/leaderboard/'.$bracket;
+        $this->uris[] = 'wow/leaderboard/'.$bracket;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Quest Information
      *
      * @param $quest_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getQuest($quest_id)
+    public function getQuest(string $quest_id) : StreamInterface
     {
-        $this->url = 'wow/quest/'.$quest_id;
+        $this->uris[] = 'wow/quest/'.$quest_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Realm Status Information
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getRealmStatus()
+    public function getRealmStatus() : StreamInterface
     {
-        $this->url = 'wow/realm/status';
+        $this->uris[] = 'wow/realm/status';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Recipe Information
      *
      * @param $recipe_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getRecipe($recipe_id)
+    public function getRecipe(string $recipe_id) : StreamInterface
     {
-        $this->url = 'wow/recipe/'.$recipe_id;
+        $this->uris[] = 'wow/recipe/'.$recipe_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Spell Information
      *
      * @param $spell_id
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getSpell($spell_id)
+    public function getSpell(string $spell_id) : StreamInterface
     {
-        $this->url = 'wow/spell/'.$spell_id;
+        $this->uris[] = 'wow/spell/'.$spell_id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Battlegroups List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getBattlegroups()
+    public function getBattlegroups() : StreamInterface
     {
-        $this->url = 'wow/data/battlegroups/';
+        $this->uris[] = 'wow/data/battlegroups/';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Character Races List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getCharacterRaces()
+    public function getCharacterRaces() : StreamInterface
     {
-        $this->url = 'wow/data/character/races';
+        $this->uris[] = 'wow/data/character/races';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Character Classes List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getCharacterClasses()
+    public function getCharacterClasses() : StreamInterface
     {
-        $this->url = 'wow/data/character/classes';
+        $this->uris[] = 'wow/data/character/classes';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Character Achivements List
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getCharacterAchievements()
+    public function getCharacterAchievements() : StreamInterface
     {
-        $this->url = 'wow/data/character/achievements';
+        $this->uris[] = 'wow/data/character/achievements';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Guild Rewards List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getGuildRewards()
+    public function getGuildRewards() : StreamInterface
     {
-        $this->url = 'wow/data/guild/rewards';
+        $this->uris[] = 'wow/data/guild/rewards';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Guild Perks List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getGuildPerks()
+    public function getGuildPerks() : StreamInterface
     {
-        $this->url = 'wow/data/guild/perks';
+        $this->uris[] = 'wow/data/guild/perks';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Guild Achievements List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getGuildAchievements()
+    public function getGuildAchievements() : StreamInterface
     {
-        $this->url = 'wow/data/guild/achievements';
+        $this->uris[] = 'wow/data/guild/achievements';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Item Classes List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getItemClasses()
+    public function getItemClasses() : StreamInterface
     {
-        $this->url = 'wow/data/item/classes';
+        $this->uris[] = 'wow/data/item/classes';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Talents List
      * 
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getTalents()
+    public function getTalents() : StreamInterface
     {
-        $this->url = 'wow/data/talents';
+        $this->uris[] = 'wow/data/talents';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
      * Get Pet Types List
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return StreamInterface
      */
-    public function getPetTypes()
+    public function getPetTypes() : StreamInterface
     {
-        $this->url = 'wow/data/pet/types';
+        $this->uris[] = 'wow/data/pet/types';
 
-        return new Response($this->get());
+        return $this;
     }
 }
