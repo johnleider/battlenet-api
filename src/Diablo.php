@@ -19,9 +19,9 @@ class Diablo extends BattleNet
      */
     public function careerProfile($battleTag)
     {
-        $this->url = 'd3/profile/'.urlencode($battleTag).'/';
+        $this->url[] = 'd3/profile/'.urlencode($battleTag).'/';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -33,9 +33,9 @@ class Diablo extends BattleNet
      */
     public function hero($battleTag, $id)
     {
-        $this->url = 'd3/profile/'.urlencode($battleTag).'/hero/'.$id;
+        $this->url[] = 'd3/profile/'.urlencode($battleTag).'/hero/'.$id;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -46,9 +46,9 @@ class Diablo extends BattleNet
      */
     public function item($data)
     {
-        $this->url = 'd3/data/item/'.$data;
+        $this->url[] = 'd3/data/item/'.$data;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -59,9 +59,9 @@ class Diablo extends BattleNet
      */
     public function follower($follower)
     {
-        $this->url = 'd3/data/follower/'.$follower;
+        $this->url[] = 'd3/data/follower/'.$follower;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -72,9 +72,9 @@ class Diablo extends BattleNet
      */
     public function artisan($artisan)
     {
-        $this->url = 'd3/data/artisan/'.$artisan;
+        $this->url[] = 'd3/data/artisan/'.$artisan;
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -85,7 +85,7 @@ class Diablo extends BattleNet
      */
     public function season($season)
     {
-        $this->url = '/data/d3/season/'.$season;
+        $this->url[] = '/data/d3/season/'.$season;
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Diablo extends BattleNet
      */
     public function era($era)
     {
-        $this->url = '/data/d3/era/'.$era;
+        $this->url[] = '/data/d3/era/'.$era;
 
         return $this;
     }
@@ -113,7 +113,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}barbarian";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -126,7 +126,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}crusader";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -139,7 +139,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}dh";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -152,7 +152,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}monk";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -165,7 +165,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}wd";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -178,7 +178,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}wizard";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -192,7 +192,7 @@ class Diablo extends BattleNet
     {
         $this->url .= "/leaderboard/rift-{$this->hardcore}team-{$size}";
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -204,7 +204,7 @@ class Diablo extends BattleNet
     {
         $this->url .= '/leaderboard/achievement-points';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -214,9 +214,9 @@ class Diablo extends BattleNet
      */
     public function seasonIndex()
     {
-        $this->url = '/data/d3/season/';
+        $this->url[] = '/data/d3/season/';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**
@@ -226,9 +226,9 @@ class Diablo extends BattleNet
      */
     public function eraIndex()
     {
-        $this->url = '/data/d3/era/';
+        $this->url[] = '/data/d3/era/';
 
-        return new Response($this->get());
+        return $this;
     }
 
     /**

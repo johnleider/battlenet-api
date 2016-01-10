@@ -2,6 +2,8 @@
 namespace johnleider\BattleNet\Requests;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
 use johnleider\BattleNet\Enums\Regions;
 use johnleider\BattleNet\Enums\Scopes;
 
@@ -66,7 +68,9 @@ abstract class BattleNet
      *
      * @var
      */
-    protected $url;
+    protected $url = [];
+
+    protected $query = [];
 
     /**
      * Set class variables
@@ -156,16 +160,52 @@ abstract class BattleNet
             $query['callback'] = $this->jsonP;
         }
 
-        $query = array_merge($query, $options);
+        $this->query = array_merge($query, $options);
 
-        $response = $this->client->get(
-            'https://'.$this->region.'.api.battle.net/'.$this->url,
-            [
-                'query' => $query
-            ]
-        );
+        $response = count($this->url == 1)
+            ? $this->first()
+            : $this->all();
 
         return $response->getBody();
+    }
+
+    public function first()
+    {
+        return $this->client->get(
+            'https://'.$this->region.'.api.battle.net/'.$this->url[0],
+            [
+                'query' => $this->query
+            ]
+        );
+    }
+
+    /**
+     * @return \GuzzleHttp\Promise\Promise|\GuzzleHttp\Promise\PromiseInterface
+     */
+    public function all()
+    {
+        $requests = function() {
+            foreach ($this->url as $url) {
+                yield new Request('GET', $url,[
+                    'query' => $this->query
+                ]);
+            }
+        };
+
+        $pool = new Pool($this->client, $requests(100), [
+            'concurrency' => 5,
+            'fulfilled' => function ($response, $index) {
+                return $response;
+            },
+            'rejected' => function ($reason, $index) {
+                // this is delivered each failed request
+            },
+        ]);
+
+        $promise = $pool->promise();
+        $promise->wait();
+
+        return $promise;
     }
 
     /**
