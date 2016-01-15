@@ -10,6 +10,7 @@
       "diablo",
       "wow"
     ],
+    "license": "MIT",
     "description": "A package to retrieve information from Blizzard's API",
     "authors": [
         {
