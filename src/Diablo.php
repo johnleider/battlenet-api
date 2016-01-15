@@ -239,7 +239,9 @@ class Diablo extends BattleNet
      */
     public function softcore() : Diablo
     {
-        return $this->hardcore = false;
+        $this->hardcore = false;
+
+        return $this;
     }
 
     /**
@@ -249,7 +251,9 @@ class Diablo extends BattleNet
      */
     public function hardcore() : Diablo
     {
-        return $this->hardcore = true;
+        $this->hardcore = true;
+        
+        return $this;
     }
 
     /**
