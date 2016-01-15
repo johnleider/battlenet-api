@@ -2,7 +2,6 @@
 namespace johnleider\BattleNet;
 
 use johnleider\BattleNet\Requests\BattleNet;
-use Psr\Http\Message\StreamInterface;
 
 class Starcraft extends BattleNet
 {
@@ -12,11 +11,11 @@ class Starcraft extends BattleNet
      * @param $id
      * @param $region
      * @param $name
-     * @return StreamInterface
+     * @return Starcraft
      */
-    public function getProfile(string $id, string $region, string $name) : StreamInterface
+    public function getProfile(int $id, string $region, string $name) : Starcraft
     {
-        $this->uris[] = 'sc2/profile/'.$id.'/'.$region.'/'.$name;
+        $this->uris[] = "sc2/profile/{$id}/{$region}/{$name}";
 
         return $this;
     }
@@ -27,11 +26,11 @@ class Starcraft extends BattleNet
      * @param $id
      * @param $region
      * @param $name
-     * @return StreamInterface
+     * @return Starcraft
      */
-    public function getProfileLadders(string $id, string $region, string $name) : StreamInterface
+    public function getProfileLadders(int $id, string $region, string $name) : Starcraft
     {
-        $this->uris[] = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/ladders';
+        $this->uris[] = "sc2/profile/{$id}/{$region}/{$name}/ladders";
 
         return $this;
     }
@@ -42,11 +41,11 @@ class Starcraft extends BattleNet
      * @param $id
      * @param $region
      * @param $name
-     * @return StreamInterface
+     * @return Starcraft
      */
-    public function getProfileMatches(string $id, string $region, string $name) : StreamInterface
+    public function getProfileMatches(int $id, string $region, string $name) : Starcraft
     {
-        $this->uris[] = 'sc2/profile/'.$id.'/'.$region.'/'.$name.'/matches';
+        $this->uris[] = "sc2/profile/{$id}/{$region}/{$name}/matches";
 
         return $this;
     }
@@ -55,11 +54,11 @@ class Starcraft extends BattleNet
      * Get a Ladder's Information
      *
      * @param $id
-     * @return StreamInterface
+     * @return Starcraft
      */
-    public function getLadder($id) : StreamInterface
+    public function getLadder(int $id) : Starcraft
     {
-        $this->uris[] = 'sc2/ladder/'.$id;
+        $this->uris[] = "sc2/ladder/{$id}";
 
         return $this;
     }
@@ -67,9 +66,9 @@ class Starcraft extends BattleNet
     /**
      * Get Achievements List
      *
-     * @return StreamInterface
+     * @return Starcraft
      */
-    public function getAchievements() : StreamInterface
+    public function getAchievements() : Starcraft
     {
         $this->uris[] = 'sc2/data/achievements';
 
@@ -79,9 +78,9 @@ class Starcraft extends BattleNet
     /**
      * Get Rewards List
      *
-     * @return StreamInterface
+     * @return Starcraft
      */
-    public function getRewards() : StreamInterface
+    public function getRewards() : Starcraft
     {
         $this->uris[] = 'sc2/data/rewards';
 

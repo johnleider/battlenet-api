@@ -1,19 +1,16 @@
 <?php
 namespace johnleider\BattleNet\Requests;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Pool;
-use GuzzleHttp\Promise;
+use GuzzleHttp\{Client, Pool, Promise};
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Stream;
-use johnleider\BattleNet\Enums\Regions;
-use johnleider\BattleNet\Enums\Scopes;
+use johnleider\BattleNet\Enums\{Regions, Scopes};
 use Psr\Http\Message\StreamInterface;
+use stdClass;
 
 abstract class BattleNet
 {
     /**
-     * Battlnet API Key
+     * Battlenet API Key
      * @var
      */
     private $apiKey;
@@ -92,7 +89,7 @@ abstract class BattleNet
         string $apiKey,
         string $apiSecret,
         string $region = Regions::US,
-        $locale = null
+        string $locale = null
     ) {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
@@ -154,9 +151,9 @@ abstract class BattleNet
      * Instantiate Guzzle and return results as json
      *
      * @param array $options
-     * @return StreamInterface
+     * @return stdClass
      */
-    public function get(array $options = []) : StreamInterface
+    public function get(array $options = []) : stdClass
     {
         $query['apikey'] = $this->apiKey;
 
@@ -178,15 +175,17 @@ abstract class BattleNet
             ? $this->first()
             : $this->all();
 
+        $this->uris = [];
+
         return $response;
     }
 
     /**
      * Return the first uri
      *
-     * @return string
+     * @return stdClass
      */
-    public function first()
+    public function first() : stdClass
     {
         return json_decode(
             $this->client->get(
@@ -198,9 +197,9 @@ abstract class BattleNet
     /**
      * Return all uris as promises
      *
-     * @return PromiseInterface
+     * @return array
      */
-    public function all() : PromiseInterface
+    public function all() : array
     {
         $response = [];
 
@@ -261,7 +260,7 @@ abstract class BattleNet
      * @param array $scopes
      * @return string
      */
-    private function generateScopes(array $scopes = array())
+    private function generateScopes(array $scopes = [])
     {
         if (empty($scopes)) {
             $scopes = [
@@ -281,7 +280,7 @@ abstract class BattleNet
      */
     private function getBaseUri(string $uri = '')
     {
-        if (! is_null($this->query)) {
+        if (! is_null($query = $this->query)) {
             $query = '?'.http_build_query($this->query);
         }
 

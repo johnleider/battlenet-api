@@ -6,7 +6,7 @@ use johnleider\BattleNet\Requests\BattleNet;
 class Diablo extends BattleNet
 {
     /**
-     * The query mode {hardcore/softcore}
+     * The query mode {season/era}
      *
      * @var string
      */
@@ -25,7 +25,7 @@ class Diablo extends BattleNet
      * @param $battleTag
      * @return Diablo
      */
-    public function careerProfile($battleTag) : Diablo
+    public function careerProfile(string $battleTag) : Diablo
     {
         $this->uris[] = 'd3/profile/'.urlencode($battleTag).'/';
 
@@ -39,9 +39,9 @@ class Diablo extends BattleNet
      * @param $id
      * @return Diablo
      */
-    public function hero($battleTag, $id) : Diablo
+    public function hero(string $battleTag, int $id) : Diablo
     {
-        $this->uris[] = 'd3/profile/'.urlencode($battleTag).'/hero/'.$id;
+        $this->uris[] = "d3/profile/".urlencode($battleTag)."/hero/{$id}";
 
         return $this;
     }
@@ -52,9 +52,9 @@ class Diablo extends BattleNet
      * @param $data
      * @return Diablo
      */
-    public function item($data) : Diablo
+    public function item(int $data) : Diablo
     {
-        $this->uris[] = 'd3/data/item/'.$data;
+        $this->uris[] = "d3/data/item/{$data}";
 
         return $this;
     }
@@ -65,9 +65,9 @@ class Diablo extends BattleNet
      * @param $follower
      * @return Diablo
      */
-    public function follower($follower) : Diablo
+    public function follower(string $follower) : Diablo
     {
-        $this->uris[] = 'd3/data/follower/'.$follower;
+        $this->uris[] = "d3/data/follower/{$follower}";
 
         return $this;
     }
@@ -78,9 +78,9 @@ class Diablo extends BattleNet
      * @param $artisan
      * @return Diablo
      */
-    public function artisan($artisan) : Diablo
+    public function artisan(string $artisan) : Diablo
     {
-        $this->uris[] = 'd3/data/artisan/'.$artisan;
+        $this->uris[] = "d3/data/artisan/{$artisan}";
 
         return $this;
     }
@@ -91,9 +91,9 @@ class Diablo extends BattleNet
      * @param $season
      * @return Diablo
      */
-    public function season($season) : Diablo
+    public function season(int $season) : Diablo
     {
-        $this->mode = '/data/d3/season/'.$season;
+        $this->mode = "/data/d3/season/{$season}";
 
         return $this;
     }
@@ -104,9 +104,9 @@ class Diablo extends BattleNet
      * @param $era
      * @return Diablo
      */
-    public function era($era) : Diablo
+    public function era(int $era) : Diablo
     {
-        $this->mode = '/data/d3/era/'.$era;
+        $this->mode = "/data/d3/era/{$era}";
 
         return $this;
     }
@@ -130,7 +130,7 @@ class Diablo extends BattleNet
      */
     public function crusader() : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}crusader";
+        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}crusader";
 
         return $this;
     }
@@ -142,7 +142,7 @@ class Diablo extends BattleNet
      */
     public function demonhunter() : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}dh";
+        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}dh";
 
         return $this;
     }
@@ -154,7 +154,7 @@ class Diablo extends BattleNet
      */
     public function monk() : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}monk";
+        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}monk";
 
         return $this;
     }
@@ -166,7 +166,7 @@ class Diablo extends BattleNet
      */
     public function witchdoctor() : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}wd";
+        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}wd";
 
         return $this;
     }
@@ -178,7 +178,7 @@ class Diablo extends BattleNet
      */
     public function wizard() : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}wizard";
+        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}wizard";
 
         return $this;
     }
@@ -189,9 +189,9 @@ class Diablo extends BattleNet
      * @param $size
      * @return Diablo
      */
-    public function team($size) : Diablo
+    public function team(int $size) : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}team-{$size}";
+        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}team-{$size}";
 
         return $this;
     }
@@ -203,7 +203,7 @@ class Diablo extends BattleNet
      */
     public function achievementPoints() : Diablo
     {
-        $this->uris[] = $this->mode.'/leaderboard/achievement-points';
+        $this->uris[] = "{$this->mode}/leaderboard/achievement-points";
 
         return $this;
     }
@@ -239,9 +239,7 @@ class Diablo extends BattleNet
      */
     public function softcore() : Diablo
     {
-        $this->hardcore = false;
-
-        return $this;
+        return $this->hardcore = false;
     }
 
     /**
@@ -251,9 +249,7 @@ class Diablo extends BattleNet
      */
     public function hardcore() : Diablo
     {
-        $this->hardcore = true;
-
-        return $this;
+        return $this->hardcore = true;
     }
 
     /**

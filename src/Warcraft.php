@@ -2,7 +2,6 @@
 namespace johnleider\BattleNet;
 
 use johnleider\BattleNet\Requests\BattleNet;
-use johnleider\BattleNet\Responses\Response;
 
 class Warcraft extends BattleNet
 {
@@ -10,11 +9,11 @@ class Warcraft extends BattleNet
      * Get Achievement Data
      *
      * @param $id
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getAchievement(string $id) : StreamInterface
+    public function getAchievement(int $id) : Warcraft
     {
-        $this->uris[] = 'wow/achievement/'.$id;
+        $this->uris[] = "wow/achievement/{$id}";
 
         return $this;
     }
@@ -23,11 +22,11 @@ class Warcraft extends BattleNet
      * Get Auction Data
      *
      * @param $realm
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getAuctionData(string $realm) : StreamInterface
+    public function getAuctionData(string $realm) : Warcraft
     {
-        $this->uris[] = 'wow/auction/data/'.$realm;
+        $this->uris[] = "wow/auction/data/{$realm}";
 
         return $this;
     }
@@ -35,12 +34,12 @@ class Warcraft extends BattleNet
     /**
      * Get Battle Pet Ability Information
      *
-     * @param $ability_id
-     * @return StreamInterface
+     * @param $abilityId
+     * @return Warcraft
      */
-    public function getBattlePetAbility(string $ability_id) : StreamInterface
+    public function getBattlePetAbility(int $abilityId) : Warcraft
     {
-        $this->uris[] = 'wow/battlepet/ability/'.$ability_id;
+        $this->uris[] = "wow/battlepet/ability/{$abilityId}";
 
         return $this;
     }
@@ -48,12 +47,12 @@ class Warcraft extends BattleNet
     /**
      * Get Battle Pet Species Information
      *
-     * @param $species_id
-     * @return StreamInterface
+     * @param $speciesId
+     * @return Warcraft
      */
-    public function getBattlePetSpecies(string $species_id) : StreamInterface
+    public function getBattlePetSpecies(int $speciesId) : Warcraft
     {
-        $this->uris[] = 'wow/battlepet/species/'.$species_id;
+        $this->uris[] = "wow/battlepet/species/{$speciesId}";
 
         return $this;
     }
@@ -61,12 +60,12 @@ class Warcraft extends BattleNet
     /**
      * Get Battle Pet Stats Information
      *
-     * @param $species_id
-     * @return StreamInterface
+     * @param $speciesId
+     * @return Warcraft
      */
-    public function getBattlePetStats(string $species_id) : StreamInterface
+    public function getBattlePetStats(int $speciesId) : Warcraft
     {
-        $this->uris[] = 'wow/battlepet/stats/'.$species_id;
+        $this->uris[] = "wow/battlepet/stats/{$speciesId}";
 
         return $this;
     }
@@ -75,11 +74,11 @@ class Warcraft extends BattleNet
      * Get Challenge Leaderboards for a Realm
      *
      * @param $realm
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getChallengeRealm(string $realm) : StreamInterface
+    public function getChallengeRealm(string $realm) : Warcraft
     {
-        $this->uris[] = 'wow/challenge/'.$realm;
+        $this->uris[] = "wow/challenge/{$realm}";
 
         return $this;
     }
@@ -87,9 +86,9 @@ class Warcraft extends BattleNet
     /**
      * Get Challenge Leaderboards for the Region
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getChallengeRegion() : StreamInterface
+    public function getChallengeRegion() : Warcraft
     {
         $this->uris[] = 'wow/challenge/region';
 
@@ -100,13 +99,13 @@ class Warcraft extends BattleNet
      * Get a Character Profile
      *
      * @param $realm
-     * @param $character_name
+     * @param $characterName
      * @param array $fields
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getCharacterProfile(string $realm, string $character_name, array $fields = []) : StreamInterface
+    public function getCharacterProfile(string $realm, string $characterName, array $fields = []) : Warcraft
     {
-        $this->uris[] = 'wow/character/'.$realm.'/'.$character_name.'?'.http_build_query($fields);
+        $this->uris[] = "wow/character/{$realm}/{$characterName}?".http_build_query($fields);
 
         return $this;
     }
@@ -114,12 +113,12 @@ class Warcraft extends BattleNet
     /**
      * Get Item Information
      *
-     * @param $item_id
-     * @return StreamInterface
+     * @param $itemId
+     * @return Warcraft
      */
-    public function getItem(string $item_id) : StreamInterface
+    public function getItem(int $itemId) : Warcraft
     {
-        $this->uris[] = 'wow/item/'.$item_id;
+        $this->uris[] = "wow/item/{$itemId}";
 
         return $this;
     }
@@ -127,12 +126,12 @@ class Warcraft extends BattleNet
     /**
      * Get Set Item Information
      *
-     * @param $set_id
-     * @return StreamInterface
+     * @param $setId
+     * @return Warcraft
      */
-    public function getSetItem(string $set_id) : StreamInterface
+    public function getSetItem(int $setId) : Warcraft
     {
-        $this->uris[] = 'wow/item/set/'.$set_id;
+        $this->uris[] = "wow/item/set/{$setId}";
 
         return $this;
     }
@@ -141,13 +140,13 @@ class Warcraft extends BattleNet
      * Get Guild Information
      *
      * @param $realm
-     * @param $guild_name
+     * @param $guildName
      * @param array $fields
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getGuildProfile(string $realm, string $guild_name, array $fields = []) : StreamInterface
+    public function getGuildProfile(string $realm, string $guildName, array $fields = []) : Warcraft
     {
-        $this->uris[] = 'wow/guild/'.$realm.'/'.$guild_name.'?'.http_build_query($fields);
+        $this->uris[] = "wow/guild/{$realm}/{$guildName}?".http_build_query($fields);
 
         return $this;
     }
@@ -156,11 +155,11 @@ class Warcraft extends BattleNet
      * Get Leaderboard Information
      *
      * @param $bracket
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getLeaderboards(string $bracket) : StreamInterface
+    public function getLeaderboards(string $bracket) : Warcraft
     {
-        $this->uris[] = 'wow/leaderboard/'.$bracket;
+        $this->uris[] = "wow/leaderboard/{$bracket}";
 
         return $this;
     }
@@ -168,12 +167,12 @@ class Warcraft extends BattleNet
     /**
      * Get Quest Information
      *
-     * @param $quest_id
-     * @return StreamInterface
+     * @param $questId
+     * @return Warcraft
      */
-    public function getQuest(string $quest_id) : StreamInterface
+    public function getQuest(int $questId) : Warcraft
     {
-        $this->uris[] = 'wow/quest/'.$quest_id;
+        $this->uris[] = "wow/quest/{$questId}";
 
         return $this;
     }
@@ -181,9 +180,9 @@ class Warcraft extends BattleNet
     /**
      * Get Realm Status Information
      *
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getRealmStatus() : StreamInterface
+    public function getRealmStatus() : Warcraft
     {
         $this->uris[] = 'wow/realm/status';
 
@@ -193,12 +192,12 @@ class Warcraft extends BattleNet
     /**
      * Get Recipe Information
      *
-     * @param $recipe_id
-     * @return StreamInterface
+     * @param $recipeId
+     * @return Warcraft
      */
-    public function getRecipe(string $recipe_id) : StreamInterface
+    public function getRecipe(int $recipeId) : Warcraft
     {
-        $this->uris[] = 'wow/recipe/'.$recipe_id;
+        $this->uris[] = "wow/recipe/{$recipeId}";
 
         return $this;
     }
@@ -206,12 +205,12 @@ class Warcraft extends BattleNet
     /**
      * Get Spell Information
      *
-     * @param $spell_id
-     * @return StreamInterface
+     * @param $spellId
+     * @return Warcraft
      */
-    public function getSpell(string $spell_id) : StreamInterface
+    public function getSpell(int $spellId) : Warcraft
     {
-        $this->uris[] = 'wow/spell/'.$spell_id;
+        $this->uris[] = "wow/spell/{$spellId}";
 
         return $this;
     }
@@ -219,9 +218,9 @@ class Warcraft extends BattleNet
     /**
      * Get Battlegroups List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getBattlegroups() : StreamInterface
+    public function getBattlegroups() : Warcraft
     {
         $this->uris[] = 'wow/data/battlegroups/';
 
@@ -231,9 +230,9 @@ class Warcraft extends BattleNet
     /**
      * Get Character Races List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getCharacterRaces() : StreamInterface
+    public function getCharacterRaces() : Warcraft
     {
         $this->uris[] = 'wow/data/character/races';
 
@@ -243,9 +242,9 @@ class Warcraft extends BattleNet
     /**
      * Get Character Classes List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getCharacterClasses() : StreamInterface
+    public function getCharacterClasses() : Warcraft
     {
         $this->uris[] = 'wow/data/character/classes';
 
@@ -253,11 +252,11 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Character Achivements List
+     * Get Character Achievements List
      *
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getCharacterAchievements() : StreamInterface
+    public function getCharacterAchievements() : Warcraft
     {
         $this->uris[] = 'wow/data/character/achievements';
 
@@ -267,9 +266,9 @@ class Warcraft extends BattleNet
     /**
      * Get Guild Rewards List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getGuildRewards() : StreamInterface
+    public function getGuildRewards() : Warcraft
     {
         $this->uris[] = 'wow/data/guild/rewards';
 
@@ -279,9 +278,9 @@ class Warcraft extends BattleNet
     /**
      * Get Guild Perks List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getGuildPerks() : StreamInterface
+    public function getGuildPerks() : Warcraft
     {
         $this->uris[] = 'wow/data/guild/perks';
 
@@ -291,9 +290,9 @@ class Warcraft extends BattleNet
     /**
      * Get Guild Achievements List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getGuildAchievements() : StreamInterface
+    public function getGuildAchievements() : Warcraft
     {
         $this->uris[] = 'wow/data/guild/achievements';
 
@@ -303,9 +302,9 @@ class Warcraft extends BattleNet
     /**
      * Get Item Classes List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getItemClasses() : StreamInterface
+    public function getItemClasses() : Warcraft
     {
         $this->uris[] = 'wow/data/item/classes';
 
@@ -315,9 +314,9 @@ class Warcraft extends BattleNet
     /**
      * Get Talents List
      * 
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getTalents() : StreamInterface
+    public function getTalents() : Warcraft
     {
         $this->uris[] = 'wow/data/talents';
 
@@ -327,9 +326,9 @@ class Warcraft extends BattleNet
     /**
      * Get Pet Types List
      *
-     * @return StreamInterface
+     * @return Warcraft
      */
-    public function getPetTypes() : StreamInterface
+    public function getPetTypes() : Warcraft
     {
         $this->uris[] = 'wow/data/pet/types';
 
