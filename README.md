@@ -66,4 +66,4 @@ foreach ($request->heroes as $hero) {
 $heroes = $diablo->get();
 ```
 
-This will asynchronously request 25 concurrent requests at a time.  The response will return as an array of JSON objects.
+This will asynchronously request 25 concurrent requests at a time.  The response will return as an array of JSON objects.  The call will not be made until the get method is called.
