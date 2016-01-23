@@ -252,7 +252,7 @@ class Diablo extends BattleNet
     public function hardcore() : Diablo
     {
         $this->hardcore = true;
-        
+
         return $this;
     }
 

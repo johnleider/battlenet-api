@@ -4,6 +4,7 @@ namespace johnleider\BattleNet\Requests;
 use GuzzleHttp\{Client, Pool, Promise};
 use GuzzleHttp\Psr7\Request;
 use johnleider\BattleNet\Enums\{Regions, Scopes};
+use johnleider\BattleNet\Responses\Response;
 use Psr\Http\Message\StreamInterface;
 use stdClass;
 
@@ -151,9 +152,9 @@ abstract class BattleNet
      * Instantiate Guzzle and return results as json
      *
      * @param array $options
-     * @return stdClass
+     * @return array|stdClass
      */
-    public function get(array $options = []) : stdClass
+    public function get(array $options = [])
     {
         $query['apikey'] = $this->apiKey;
 
@@ -183,23 +184,25 @@ abstract class BattleNet
     /**
      * Return the first uri
      *
-     * @return stdClass
+     * @return Response
      */
-    public function first() : stdClass
+    public function first() : Response
     {
-        return json_decode(
-            $this->client->get(
-                $this->getBaseUri(array_shift($this->uris))
-            )->getBody()->getContents()
+        $response = $this->client->get(
+            $this->getBaseUri(array_shift($this->uris))
+                ->getBody()
+                ->getContents()
         );
+
+        return new Response($response);
     }
 
     /**
      * Return all uris as promises
      *
-     * @return array
+     * @return Response
      */
-    public function all() : array
+    public function all() : Response
     {
         $response = [];
 
@@ -222,7 +225,7 @@ abstract class BattleNet
         $promise = $pool->promise();
         $promise->wait();
 
-        return $response;
+        return new Response($response);
     }
 
     /**
