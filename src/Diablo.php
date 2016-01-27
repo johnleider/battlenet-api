@@ -47,12 +47,25 @@ class Diablo extends BattleNet
     }
 
     /**
+     *  Get Class Skills
+     *
+     * @param $class
+     * @return Diablo
+     */
+    public function skills(string $class = 'index') : Diablo
+    {
+        $this->uris[] = "d3/data/hero/{$class}";
+
+        return $this;
+    }
+
+    /**
      * Get Item Information
      *
      * @param $data
      * @return Diablo
      */
-    public function item(int $data) : Diablo
+    public function item(string $data) : Diablo
     {
         $this->uris[] = "d3/data/item/{$data}";
 
@@ -65,9 +78,35 @@ class Diablo extends BattleNet
      * @param $follower
      * @return Diablo
      */
-    public function follower(string $follower) : Diablo
+    public function follower(string $follower = 'index') : Diablo
     {
         $this->uris[] = "d3/data/follower/{$follower}";
+
+        return $this;
+    }
+
+    /**
+     * Get Artisan Information
+     *
+     * @param $artisan
+     * @return Diablo
+     */
+    public function artisan(string $artisan = 'index') : Diablo
+    {
+        $this->uris[] = "d3/data/artisan/{$artisan}";
+
+        return $this;
+    }
+
+    /**
+     * Get Act Information
+     *
+     * @param $act
+     * @return Diablo
+     */
+    public function act(int $act) : Diablo
+    {
+        $this->uris[] = "d3/data/act/act-{$act}";
 
         return $this;
     }

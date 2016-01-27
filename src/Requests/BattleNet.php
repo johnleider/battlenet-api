@@ -186,15 +186,15 @@ abstract class BattleNet
      *
      * @return Response
      */
-    public function first() : Response
+    public function first()
     {
         $response = $this->client->get(
             $this->getBaseUri(array_shift($this->uris))
-                ->getBody()
-                ->getContents()
-        );
+        )
+            ->getBody()
+            ->getContents();
 
-        return new Response($response);
+        return json_decode($response);
     }
 
     /**
@@ -202,7 +202,7 @@ abstract class BattleNet
      *
      * @return Response
      */
-    public function all() : Response
+    public function all() : array
     {
         $response = [];
 
@@ -225,7 +225,7 @@ abstract class BattleNet
         $promise = $pool->promise();
         $promise->wait();
 
-        return new Response($response);
+        return $response;
     }
 
     /**
