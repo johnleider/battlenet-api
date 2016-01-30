@@ -1,4 +1,5 @@
 <?php
+
 namespace johnleider\BattleNet;
 
 use johnleider\BattleNet\Requests\BattleNet;

@@ -1,4 +1,5 @@
 <?php
+
 namespace johnleider\BattleNet;
 
 use johnleider\BattleNet\Requests\BattleNet;
@@ -27,7 +28,7 @@ class Diablo extends BattleNet
      */
     public function careerProfile(string $battleTag) : Diablo
     {
-        $this->uris[] = 'd3/profile/'.urlencode($battleTag).'/';
+        $this->addToRequest('d3/profile/'.urlencode($battleTag).'/');
 
         return $this;
     }
@@ -41,7 +42,7 @@ class Diablo extends BattleNet
      */
     public function hero(string $battleTag, int $id) : Diablo
     {
-        $this->uris[] = "d3/profile/".urlencode($battleTag)."/hero/{$id}";
+        $this->addToRequest("d3/profile/".urlencode($battleTag)."/hero/{$id}");
 
         return $this;
     }
@@ -54,7 +55,7 @@ class Diablo extends BattleNet
      */
     public function skills(string $class = 'index') : Diablo
     {
-        $this->uris[] = "d3/data/hero/{$class}";
+        $this->addToRequest("d3/data/hero/{$class}");
 
         return $this;
     }
@@ -67,7 +68,7 @@ class Diablo extends BattleNet
      */
     public function item(string $data) : Diablo
     {
-        $this->uris[] = "d3/data/item/{$data}";
+        $this->addToRequest("d3/data/item/{$data}");
 
         return $this;
     }
@@ -80,7 +81,7 @@ class Diablo extends BattleNet
      */
     public function follower(string $follower = 'index') : Diablo
     {
-        $this->uris[] = "d3/data/follower/{$follower}";
+        $this->addToRequest("d3/data/follower/{$follower}");
 
         return $this;
     }
@@ -93,7 +94,7 @@ class Diablo extends BattleNet
      */
     public function artisan(string $artisan = 'index') : Diablo
     {
-        $this->uris[] = "d3/data/artisan/{$artisan}";
+        $this->addToRequest("d3/data/artisan/{$artisan}");
 
         return $this;
     }
@@ -106,20 +107,7 @@ class Diablo extends BattleNet
      */
     public function act(int $act) : Diablo
     {
-        $this->uris[] = "d3/data/act/act-{$act}";
-
-        return $this;
-    }
-
-    /**
-     * Get Artisan Information
-     *
-     * @param $artisan
-     * @return Diablo
-     */
-    public function artisan(string $artisan) : Diablo
-    {
-        $this->uris[] = "d3/data/artisan/{$artisan}";
+        $this->addToRequest("d3/data/act/act-{$act}");
 
         return $this;
     }
@@ -132,7 +120,7 @@ class Diablo extends BattleNet
      */
     public function season(int $season) : Diablo
     {
-        $this->mode = "/data/d3/season/{$season}";
+        $this->addToRequest("/data/d3/season/{$season}");
 
         return $this;
     }
@@ -145,7 +133,7 @@ class Diablo extends BattleNet
      */
     public function era(int $era) : Diablo
     {
-        $this->mode = "/data/d3/era/{$era}";
+        $this->addToRequest("/data/d3/era/{$era}");
 
         return $this;
     }
@@ -157,7 +145,7 @@ class Diablo extends BattleNet
      */
     public function barbarian() : Diablo
     {
-        $this->uris[] = $this->mode."/leaderboard/rift-{$this->isHardcore()}barbarian";
+        $this->addToRequest($this->mode."/leaderboard/rift-{$this->isHardcore()}barbarian");
 
         return $this;
     }
@@ -169,7 +157,7 @@ class Diablo extends BattleNet
      */
     public function crusader() : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}crusader";
+        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}crusader");
 
         return $this;
     }
@@ -181,7 +169,7 @@ class Diablo extends BattleNet
      */
     public function demonhunter() : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}dh";
+        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}dh");
 
         return $this;
     }
@@ -193,7 +181,7 @@ class Diablo extends BattleNet
      */
     public function monk() : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}monk";
+        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}monk");
 
         return $this;
     }
@@ -205,7 +193,7 @@ class Diablo extends BattleNet
      */
     public function witchdoctor() : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}wd";
+        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}wd");
 
         return $this;
     }
@@ -217,7 +205,7 @@ class Diablo extends BattleNet
      */
     public function wizard() : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}wizard";
+        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}wizard");
 
         return $this;
     }
@@ -230,7 +218,7 @@ class Diablo extends BattleNet
      */
     public function team(int $size) : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/rift-{$this->isHardcore()}team-{$size}";
+        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}team-{$size}");
 
         return $this;
     }
@@ -242,7 +230,7 @@ class Diablo extends BattleNet
      */
     public function achievementPoints() : Diablo
     {
-        $this->uris[] = "{$this->mode}/leaderboard/achievement-points";
+        $this->addToRequest("{$this->mode}/leaderboard/achievement-points");
 
         return $this;
     }
@@ -254,7 +242,7 @@ class Diablo extends BattleNet
      */
     public function seasonIndex() : Diablo
     {
-        $this->uris[] = '/data/d3/season/';
+        $this->addToRequest('/data/d3/season/');
 
         return $this;
     }
@@ -266,7 +254,7 @@ class Diablo extends BattleNet
      */
     public function eraIndex() : Diablo
     {
-        $this->uris[] = '/data/d3/era/';
+        $this->addToRequest('/data/d3/era/');
 
         return $this;
     }

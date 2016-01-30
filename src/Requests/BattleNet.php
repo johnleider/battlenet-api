@@ -1,10 +1,10 @@
 <?php
+
 namespace johnleider\BattleNet\Requests;
 
 use GuzzleHttp\{Client, Pool, Promise};
 use GuzzleHttp\Psr7\Request;
-use johnleider\BattleNet\Enums\{Regions, Scopes};
-use johnleider\BattleNet\Responses\Response;
+use johnleider\BattleNet\Enums\Scopes;
 use Psr\Http\Message\StreamInterface;
 use stdClass;
 
@@ -48,21 +48,21 @@ abstract class BattleNet
      *
      * @var null
      */
-    protected $locale;
+    private $locale = null;
 
     /**
      * Designate a JSON P Callback
      *
      * @var
      */
-    protected $jsonP;
+    private $jsonP;
 
     /**
-     * The region that is being queried
+     * The locale of the response
      *
-     * @var string
+     * @var
      */
-    protected $region;
+    private $region;
 
     /**
      * The designated uri for the query
@@ -81,21 +81,18 @@ abstract class BattleNet
     /**
      * Set class variables
      *
-     * @param $apiKey
-     * @param $apiSecret
-     * @param $region
-     * @param $locale
+     * @param string $apiKey
+     * @param string $apiSecret
+     * @param string $apiToken
      */
     public function __construct(
         string $apiKey,
         string $apiSecret,
-        string $region = Regions::US,
-        string $locale = null
+        string $apiToken = null
     ) {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
-        $this->locale = $locale;
-        $this->region = $region;
+        $this->apiToken = $apiToken;
         $this->client = new Client();
     }
 
@@ -156,21 +153,7 @@ abstract class BattleNet
      */
     public function get(array $options = [])
     {
-        $query['apikey'] = $this->apiKey;
-
-        if (! is_null($this->accessToken)) {
-            $query['access_token'] = $this->accessToken;
-        }
-
-        if (! is_null($this->locale)) {
-            $query['locale'] = $this->locale;
-        }
-
-        if (! is_null($this->jsonP)) {
-            $query['callback'] = $this->jsonP;
-        }
-
-        $this->query = array_merge($query, $options);
+        $this->buildQuery($options);
 
         $response = count($this->uris) == 1
             ? $this->first()
@@ -182,6 +165,27 @@ abstract class BattleNet
     }
 
     /**
+     *  Build up the query for the API call
+     *
+     *  @param array $options
+     *  @return array
+     */
+    public function buildQuery(array $options)
+    {
+        $query['apikey'] = $this->apiKey;
+
+        if (! is_null($this->accessToken)) {
+            $query['access_token'] = $this->accessToken;
+        }
+
+        if (! is_null($this->jsonP)) {
+            $query['callback'] = $this->jsonP;
+        }
+
+        $this->query = array_merge($query, $options);
+    }
+
+    /**
      * Return the first uri
      *
      * @return Response
@@ -189,7 +193,7 @@ abstract class BattleNet
     public function first()
     {
         $response = $this->client->get(
-            $this->getBaseUri(array_shift($this->uris))
+            $this->getRequestUri(array_shift($this->uris))
         )
             ->getBody()
             ->getContents();
@@ -200,7 +204,7 @@ abstract class BattleNet
     /**
      * Return all uris as promises
      *
-     * @return Response
+     * @return array
      */
     public function all() : array
     {
@@ -209,7 +213,7 @@ abstract class BattleNet
         $requests = function ($uris) {
             foreach ($uris as $uri) {
                 yield new Request('GET',
-                    $this->getBaseUri($uri)
+                    $this->getRequestUri($uri)
                 );
             }
         };
@@ -229,16 +233,6 @@ abstract class BattleNet
     }
 
     /**
-     * Set the access token
-     *
-     * @param $accessToken
-     */
-    public function setAccessToken(string $accessToken)
-    {
-        $this->accessToken = $accessToken;
-    }
-
-    /**
      * Response with a JsonP Callback
      *
      * @param $jsonP
@@ -249,13 +243,36 @@ abstract class BattleNet
     }
 
     /**
-     * Set the region
+     * Set locale for request
      *
-     * @param $region
+     * @param string $locale
+     */
+    public function setLocale(string $locale)
+    {
+        $this->locale = $locale;
+    }
+
+    /**
+     * Set region for request
+     *
+     * @param string $region
      */
     public function setRegion(string $region)
     {
         $this->region = $region;
+    }
+
+    /**
+     * Add to request pool
+     *
+     * @param string $uri
+     */
+    protected function addToRequest(string $uri)
+    {
+        $region = $this->region;
+        $locale = $this->locale;
+
+        $this->uris[] = compact('region', 'uri', 'locale');
     }
 
     /**
@@ -281,12 +298,14 @@ abstract class BattleNet
      * @param $uri
      * @return string
      */
-    private function getBaseUri(string $uri = '')
+    private function getRequestUri(array $uri)
     {
-        if (! is_null($query = $this->query)) {
-            $query = '?'.http_build_query($this->query);
+        $query = '?'.http_build_query($this->query);
+
+        if (! is_null($uri['locale'])) {
+            $query .= "&locale={$uri['locale']}";
         }
 
-        return 'https://'.$this->region.'.api.battle.net/'.$uri.$query;
+        return "https://{$uri['region']}.api.battle.net/{$uri['uri']}{$query}";
     }
 }
