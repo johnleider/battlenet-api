@@ -1,295 +1,311 @@
 <?php
 
-namespace johnleider\BattleNet;
+namespace johnleider\BattleNet\Requests;
 
-use johnleider\BattleNet\Requests\BattleNet;
+use GuzzleHttp\{Client, Pool, Promise};
+use GuzzleHttp\Psr7\Request;
+use johnleider\BattleNet\Enums\Scopes;
+use Psr\Http\Message\StreamInterface;
+use stdClass;
 
-class Diablo extends BattleNet
+abstract class BattleNet
 {
     /**
-     * The query mode {season/era}
-     *
-     * @var string
+     * Battlenet API Key
+     * @var
      */
-    public $mode;
+    private $apiKey;
 
     /**
-     * Hardcore boolean
+     * Battlenet API Secret
      *
-     * @var boolean
+     * @var
      */
-    public $hardcore;
+    private $apiSecret;
 
     /**
-     * Get Diablo Profile
+     * The clients access token
      *
-     * @param $battleTag
-     * @return Diablo
+     * @var
      */
-    public function careerProfile(string $battleTag) : Diablo
-    {
-        $this->addToRequest('d3/profile/'.urlencode($battleTag).'/');
+    private $accessToken;
 
-        return $this;
+    /**
+     * Instance of Guzzle
+     *
+     * @var Client
+     */
+    private $client;
+
+    /**
+     * Scopes for authorization
+     * @var
+     */
+    private $scopes;
+
+    /**
+     * The locale of the response
+     *
+     * @var null
+     */
+    private $locale = null;
+
+    /**
+     * Designate a JSON P Callback
+     *
+     * @var
+     */
+    private $jsonP;
+
+    /**
+     * The locale of the response
+     *
+     * @var
+     */
+    private $region;
+
+    /**
+     * The designated uri for the query
+     *
+     * @var
+     */
+    protected $uris = [];
+
+    /**
+     * The current query params
+     *
+     * @var array
+     */
+    protected $query = [];
+
+    /**
+     * Set class variables
+     *
+     * @param string $apiKey
+     * @param string $apiSecret
+     * @param string $apiToken
+     */
+    public function __construct(
+        string $apiKey,
+        string $apiSecret,
+        string $apiToken = null
+    ) {
+        $this->apiKey = $apiKey;
+        $this->apiSecret = $apiSecret;
+        $this->apiToken = $apiToken;
+        $this->client = new Client();
     }
 
     /**
-     * Get Diablo Hero
+     * Get authorization from Battlenet
      *
-     * @param $battleTag
-     * @param $id
-     * @return Diablo
+     * @param $redirect
+     * @param $scopes
+     * @return StreamInterface
      */
-    public function hero(string $battleTag, int $id) : Diablo
+    public function authorize(string $redirect, array $scopes = [])
     {
-        $this->addToRequest("d3/profile/".urlencode($battleTag)."/hero/{$id}");
+        $query = http_build_query([
+            'client_id' => $this->apiKey,
+            'scope' => $this->generateScopes($scopes),
+            'state' => mt_rand(1, 9999),
+            'redirect_uri' => $redirect,
+            'response_type' => 'code'
+        ]);
 
-        return $this;
+        header('Location: https://'.$this->region.'.battle.net/oauth/authorize?'.$query);
+        die;
     }
 
     /**
-     *  Get Class Skills
+     * Get auth token
      *
-     * @param $class
-     * @return Diablo
+     * @param $redirect
+     * @param $code
+     * @return StreamInterface
      */
-    public function skills(string $class = 'index') : Diablo
+    public function token(string $redirect, string $code) : StreamInterface
     {
-        $this->addToRequest("d3/data/hero/{$class}");
+        $response = $this->client->post(
+            'https://'.$this->region.'.battle.net/oauth/token',
+            [
+                'form_params' => [
+                    'redirect_uri' => $redirect,
+                    'scope' => $this->scopes,
+                    'grant_type' => 'authorization_code',
+                    'code' => $code
+                ],
+                'auth'  => [
+                    $this->apiKey,
+                    $this->apiSecret
+                ]
+            ]
+        );
 
-        return $this;
+        return $response->getBody();
     }
 
     /**
-     * Get Item Information
+     * Instantiate Guzzle and return results as json
      *
-     * @param $data
-     * @return Diablo
+     * @param array $options
+     * @return array|stdClass
      */
-    public function item(string $data) : Diablo
+    public function get(array $options = [])
     {
-        $this->addToRequest("d3/data/item/{$data}");
+        $this->buildQuery($options);
 
-        return $this;
+        $response = count($this->uris) == 1
+            ? $this->first()
+            : $this->all();
+
+        $this->uris = [];
+
+        return $response;
     }
 
     /**
-     * Get Follower Information
+     *  Build up the query for the API call
      *
-     * @param $follower
-     * @return Diablo
+     *  @param array $options
+     *  @return array
      */
-    public function follower(string $follower = 'index') : Diablo
+    public function buildQuery(array $options)
     {
-        $this->addToRequest("d3/data/follower/{$follower}");
+        $query['apikey'] = $this->apiKey;
 
-        return $this;
+        if (! is_null($this->apiToken)) {
+            $query['access_token'] = $this->apiToken;
+        }
+
+        if (! is_null($this->jsonP)) {
+            $query['callback'] = $this->jsonP;
+        }
+
+        $this->query = array_merge($query, $options);
     }
 
     /**
-     * Get Artisan Information
+     * Return the first uri
      *
-     * @param $artisan
-     * @return Diablo
+     * @return Response
      */
-    public function artisan(string $artisan = 'index') : Diablo
+    public function first()
     {
-        $this->addToRequest("d3/data/artisan/{$artisan}");
+        $response = $this->client->get(
+            $this->getRequestUri(array_shift($this->uris))
+        )
+            ->getBody()
+            ->getContents();
 
-        return $this;
+        return json_decode($response);
     }
 
     /**
-     * Get Act Information
+     * Return all uris as promises
      *
-     * @param $act
-     * @return Diablo
+     * @return array
      */
-    public function act(int $act) : Diablo
+    public function all() : array
     {
-        $this->addToRequest("d3/data/act/act-{$act}");
+        $response = [];
 
-        return $this;
+        $requests = function ($uris) {
+            foreach ($uris as $uri) {
+                yield new Request('GET',
+                    $this->getRequestUri($uri)
+                );
+            }
+        };
+
+        $pool = new Pool($this->client, $requests($this->uris), [
+            'fulfilled' => function ($data) use (&$response) {
+                $data = json_decode($data->getBody()->getContents());
+
+                $response[] = $data;
+            },
+        ]);
+
+        $promise = $pool->promise();
+        $promise->wait();
+
+        return $response;
     }
 
     /**
-     * Select season to query
+     * Response with a JsonP Callback
      *
-     * @param $season
-     * @return Diablo
+     * @param $jsonP
      */
-    public function season(int $season) : Diablo
+    public function setJsonP(string $jsonP)
     {
-        $this->mode = "/data/d3/season/{$season}";
-
-        return $this;
+        $this->jsonP = $jsonP;
     }
 
     /**
-     * Select era to query
+     * Set locale for request
      *
-     * @param $era
-     * @return Diablo
+     * @param string $locale
      */
-    public function era(int $era) : Diablo
+    public function setLocale(string $locale)
     {
-        $this->addToRequest("/data/d3/era/{$era}");
-
-        return $this;
+        $this->locale = $locale;
     }
 
     /**
-     * Retrieve barbarian rankings
+     * Set region for request
      *
-     * @return Diablo
+     * @param string $region
      */
-    public function barbarian() : Diablo
+    public function setRegion(string $region)
     {
-        $this->addToRequest($this->mode."/leaderboard/rift-{$this->isHardcore()}barbarian");
-
-        return $this;
+        $this->region = $region;
     }
 
     /**
-     * Retrieve crusader rankings
+     * Add to request pool
      *
-     * @return Diablo
+     * @param string $uri
      */
-    public function crusader() : Diablo
+    protected function addToRequest(string $uri)
     {
-        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}crusader");
+        $region = $this->region;
+        $locale = $this->locale;
 
-        return $this;
+        $this->uris[] = compact('region', 'uri', 'locale');
     }
 
     /**
-     * Retrieve demonhunter rankings
-     *
-     * @return Diablo
+     * Generate scopes for authorization
+     * @param array $scopes
+     * @return string
      */
-    public function demonhunter() : Diablo
+    private function generateScopes(array $scopes = [])
     {
-        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}dh");
+        if (empty($scopes)) {
+            $scopes = [
+                Scopes::WOW,
+                Scopes::SC2
+            ];
+        }
 
-        return $this;
+        return $this->scopes = join('+', $scopes);
     }
 
     /**
-     * Retrieve monk rankings
+     * Return base uri
      *
-     * @return Diablo
+     * @param $uri
+     * @return string
      */
-    public function monk() : Diablo
+    private function getRequestUri(array $uri)
     {
-        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}monk");
+        $query = '?'.http_build_query($this->query);
 
-        return $this;
-    }
+        if (! is_null($uri['locale'])) {
+            $query .= "&locale={$uri['locale']}";
+        }
 
-    /**
-     * Retrieve witchdoctor rankings
-     *
-     * @return Diablo
-     */
-    public function witchdoctor() : Diablo
-    {
-        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}wd");
-
-        return $this;
-    }
-
-    /**
-     * Retrieve wizard rankings
-     *
-     * @return Diablo
-     */
-    public function wizard() : Diablo
-    {
-        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}wizard");
-
-        return $this;
-    }
-
-    /**
-     * Retrieve team rankings by size
-     *
-     * @param $size
-     * @return Diablo
-     */
-    public function team(int $size) : Diablo
-    {
-        $this->addToRequest("{$this->mode}/leaderboard/rift-{$this->isHardcore()}team-{$size}");
-
-        return $this;
-    }
-
-    /**
-     * Retrieve achievement point rankings
-     *
-     * @return Diablo
-     */
-    public function achievementPoints() : Diablo
-    {
-        $this->addToRequest("{$this->mode}/leaderboard/achievement-points");
-
-        return $this;
-    }
-
-    /**
-     * Retrieve the season index
-     *
-     * @return Diablo
-     */
-    public function seasonIndex() : Diablo
-    {
-        $this->addToRequest('/data/d3/season/');
-
-        return $this;
-    }
-
-    /**
-     * Retrieve the era index
-     *
-     * @return Diablo
-     */
-    public function eraIndex() : Diablo
-    {
-        $this->addToRequest('/data/d3/era/');
-
-        return $this;
-    }
-
-    /**
-     * Set the query to softcore
-     *
-     * @return Diablo
-     */
-    public function softcore() : Diablo
-    {
-        $this->hardcore = false;
-
-        return $this;
-    }
-
-    /**
-     * Set the query to hardcore
-     *
-     * @return Diablo
-     */
-    public function hardcore() : Diablo
-    {
-        $this->hardcore = true;
-
-        return $this;
-    }
-
-    /**
-     * Return character type string
-     */
-    public function isHardcore() : string
-    {
-        return $this->hardcore
-            ? 'hardcore-'
-            : '';
+        return "https://{$uri['region']}.api.battle.net/{$uri['uri']}{$query}";
     }
 }
