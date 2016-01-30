@@ -120,7 +120,7 @@ class Diablo extends BattleNet
      */
     public function season(int $season) : Diablo
     {
-        $this->addToRequest("/data/d3/season/{$season}");
+        $this->mode = "/data/d3/season/{$season}";
 
         return $this;
     }
@@ -133,7 +133,7 @@ class Diablo extends BattleNet
      */
     public function era(int $era) : Diablo
     {
-        $this->addToRequest("/data/d3/era/{$era}");
+        $this->mode = "/data/d3/era/{$era}";
 
         return $this;
     }
