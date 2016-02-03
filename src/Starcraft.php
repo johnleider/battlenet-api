@@ -7,11 +7,12 @@ use johnleider\BattleNet\Requests\BattleNet;
 class Starcraft extends BattleNet
 {
     /**
-     * Get Profile Information
+     * Get Profile Information.
      *
      * @param $id
      * @param $region
      * @param $name
+     *
      * @return Starcraft
      */
     public function getProfile(int $id, string $region, string $name) : Starcraft
@@ -22,11 +23,12 @@ class Starcraft extends BattleNet
     }
 
     /**
-     * Get a Profile's Ladder Information
+     * Get a Profile's Ladder Information.
      *
      * @param $id
      * @param $region
      * @param $name
+     *
      * @return Starcraft
      */
     public function getProfileLadders(int $id, string $region, string $name) : Starcraft
@@ -37,11 +39,12 @@ class Starcraft extends BattleNet
     }
 
     /**
-     * Get a Profile's Match History
+     * Get a Profile's Match History.
      *
      * @param $id
      * @param $region
      * @param $name
+     *
      * @return Starcraft
      */
     public function getProfileMatches(int $id, string $region, string $name) : Starcraft
@@ -52,9 +55,10 @@ class Starcraft extends BattleNet
     }
 
     /**
-     * Get a Ladder's Information
+     * Get a Ladder's Information.
      *
      * @param $id
+     *
      * @return Starcraft
      */
     public function getLadder(int $id) : Starcraft
@@ -65,7 +69,7 @@ class Starcraft extends BattleNet
     }
 
     /**
-     * Get Achievements List
+     * Get Achievements List.
      *
      * @return Starcraft
      */
@@ -77,7 +81,7 @@ class Starcraft extends BattleNet
     }
 
     /**
-     * Get Rewards List
+     * Get Rewards List.
      *
      * @return Starcraft
      */

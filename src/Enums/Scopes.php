@@ -1,4 +1,5 @@
 <?php
+
 namespace johnleider\Battlenet\Enums;
 
 class Scopes

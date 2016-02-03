@@ -1,4 +1,5 @@
 <?php
+
 namespace johnleider\BattleNet\Enums;
 
 class Regions

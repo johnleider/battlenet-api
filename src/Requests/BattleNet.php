@@ -2,84 +2,86 @@
 
 namespace johnleider\BattleNet\Requests;
 
-use GuzzleHttp\{Client, Pool, Promise};
 use GuzzleHttp\Psr7\Request;
 use johnleider\BattleNet\Enums\Scopes;
+use Pool;
 use Psr\Http\Message\StreamInterface;
 use stdClass;
 
 abstract class BattleNet
 {
     /**
-     * Battlenet API Key
+     * Battlenet API Key.
+     *
      * @var
      */
     private $apiKey;
 
     /**
-     * Battlenet API Secret
+     * Battlenet API Secret.
      *
      * @var
      */
     private $apiSecret;
 
     /**
-     * The clients access token
+     * The clients access token.
      *
      * @var
      */
     private $accessToken;
 
     /**
-     * Instance of Guzzle
+     * Instance of Guzzle.
      *
      * @var Client
      */
     private $client;
 
     /**
-     * Scopes for authorization
+     * Scopes for authorization.
+     *
      * @var
      */
     private $scopes;
 
     /**
-     * The locale of the response
+     * The locale of the response.
      *
      * @var null
      */
     private $locale = null;
 
     /**
-     * Designate a JSON P Callback
+     * Designate a JSON P Callback.
      *
      * @var
      */
     private $jsonP;
 
     /**
-     * The locale of the response
+     * The locale of the response.
      *
      * @var
      */
     private $region;
 
     /**
-     * The designated uri for the query
+     * The designated uri for the query.
      *
      * @var
      */
     protected $uris = [];
 
     /**
-     * The current query params
+     * The current query params.
      *
      * @var array
      */
     protected $query = [];
 
     /**
-     * Set class variables
+     * Set class variables.
      *
      * @param string $apiKey
      * @param string $apiSecret
@@ -97,20 +99,21 @@ abstract class BattleNet
     }
 
     /**
-     * Get authorization from Battlenet
+     * Get authorization from Battlenet.
      *
      * @param $redirect
      * @param $scopes
+     *
      * @return StreamInterface
      */
     public function authorize(string $redirect, array $scopes = [])
     {
         $query = http_build_query([
-            'client_id' => $this->apiKey,
-            'scope' => $this->generateScopes($scopes),
-            'state' => mt_rand(1, 9999),
-            'redirect_uri' => $redirect,
-            'response_type' => 'code'
+            'client_id'     => $this->apiKey,
+            'scope'         => $this->generateScopes($scopes),
+            'state'         => mt_rand(1, 9999),
+            'redirect_uri'  => $redirect,
+            'response_type' => 'code',
         ]);
 
         header('Location: https://'.$this->region.'.battle.net/oauth/authorize?'.$query);
@@ -118,10 +121,11 @@ abstract class BattleNet
     }
 
     /**
-     * Get auth token
+     * Get auth token.
      *
      * @param $redirect
      * @param $code
+     *
      * @return StreamInterface
      */
     public function token(string $redirect, string $code) : StreamInterface
@@ -131,14 +135,14 @@ abstract class BattleNet
             [
                 'form_params' => [
                     'redirect_uri' => $redirect,
-                    'scope' => $this->scopes,
-                    'grant_type' => 'authorization_code',
-                    'code' => $code
+                    'scope'        => $this->scopes,
+                    'grant_type'   => 'authorization_code',
+                    'code'         => $code,
                 ],
                 'auth'  => [
                     $this->apiKey,
-                    $this->apiSecret
-                ]
+                    $this->apiSecret,
+                ],
             ]
         );
 
@@ -146,9 +150,10 @@ abstract class BattleNet
     }
 
     /**
-     * Instantiate Guzzle and return results as json
+     * Instantiate Guzzle and return results as json.
      *
      * @param array $options
+     *
      * @return array|stdClass
      */
     public function get(array $options = [])
@@ -165,20 +170,21 @@ abstract class BattleNet
     }
 
     /**
-     *  Build up the query for the API call
+     *  Build up the query for the API call.
      *
      *  @param array $options
+     *
      *  @return array
      */
     public function buildQuery(array $options)
     {
         $query['apikey'] = $this->apiKey;
 
-        if (! is_null($this->apiToken)) {
+        if (!is_null($this->apiToken)) {
             $query['access_token'] = $this->apiToken;
         }
 
-        if (! is_null($this->jsonP)) {
+        if (!is_null($this->jsonP)) {
             $query['callback'] = $this->jsonP;
         }
 
@@ -186,7 +192,7 @@ abstract class BattleNet
     }
 
     /**
-     * Return the first uri
+     * Return the first uri.
      *
      * @return Response
      */
@@ -202,7 +208,7 @@ abstract class BattleNet
     }
 
     /**
-     * Return all uris as promises
+     * Return all uris as promises.
      *
      * @return array
      */
@@ -233,7 +239,7 @@ abstract class BattleNet
     }
 
     /**
-     * Response with a JsonP Callback
+     * Response with a JsonP Callback.
      *
      * @param $jsonP
      */
@@ -243,7 +249,7 @@ abstract class BattleNet
     }
 
     /**
-     * Set locale for request
+     * Set locale for request.
      *
      * @param string $locale
      */
@@ -253,7 +259,7 @@ abstract class BattleNet
     }
 
     /**
-     * Set region for request
+     * Set region for request.
      *
      * @param string $region
      */
@@ -263,7 +269,7 @@ abstract class BattleNet
     }
 
     /**
-     * Add to request pool
+     * Add to request pool.
      *
      * @param string $uri
      */
@@ -276,8 +282,10 @@ abstract class BattleNet
     }
 
     /**
-     * Generate scopes for authorization
+     * Generate scopes for authorization.
+     *
      * @param array $scopes
+     *
      * @return string
      */
     private function generateScopes(array $scopes = [])
@@ -285,24 +293,25 @@ abstract class BattleNet
         if (empty($scopes)) {
             $scopes = [
                 Scopes::WOW,
-                Scopes::SC2
+                Scopes::SC2,
             ];
         }
 
-        return $this->scopes = join('+', $scopes);
+        return $this->scopes = implode('+', $scopes);
     }
 
     /**
-     * Return base uri
+     * Return base uri.
      *
      * @param $uri
+     *
      * @return string
      */
     private function getRequestUri(array $uri)
     {
         $query = '?'.http_build_query($this->query);
 
-        if (! is_null($uri['locale'])) {
+        if (!is_null($uri['locale'])) {
             $query .= "&locale={$uri['locale']}";
         }
 

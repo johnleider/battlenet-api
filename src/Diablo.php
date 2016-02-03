@@ -7,23 +7,24 @@ use johnleider\BattleNet\Requests\BattleNet;
 class Diablo extends BattleNet
 {
     /**
-     * The query mode {season/era}
+     * The query mode {season/era}.
      *
      * @var string
      */
     public $mode;
 
     /**
-     * Hardcore boolean
+     * Hardcore boolean.
      *
-     * @var boolean
+     * @var bool
      */
     public $hardcore;
 
     /**
-     * Get Diablo Profile
+     * Get Diablo Profile.
      *
      * @param $battleTag
+     *
      * @return Diablo
      */
     public function careerProfile(string $battleTag) : Diablo
@@ -34,23 +35,25 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Get Diablo Hero
+     * Get Diablo Hero.
      *
      * @param $battleTag
      * @param $id
+     *
      * @return Diablo
      */
     public function hero(string $battleTag, int $id) : Diablo
     {
-        $this->addToRequest("d3/profile/".urlencode($battleTag)."/hero/{$id}");
+        $this->addToRequest('d3/profile/'.urlencode($battleTag)."/hero/{$id}");
 
         return $this;
     }
 
     /**
-     *  Get Class Skills
+     *  Get Class Skills.
      *
      * @param $class
+     *
      * @return Diablo
      */
     public function skills(string $class = 'index') : Diablo
@@ -61,9 +64,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Get Item Information
+     * Get Item Information.
      *
      * @param $data
+     *
      * @return Diablo
      */
     public function item(string $data) : Diablo
@@ -74,9 +78,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Get Follower Information
+     * Get Follower Information.
      *
      * @param $follower
+     *
      * @return Diablo
      */
     public function follower(string $follower = 'index') : Diablo
@@ -87,9 +92,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Get Artisan Information
+     * Get Artisan Information.
      *
      * @param $artisan
+     *
      * @return Diablo
      */
     public function artisan(string $artisan = 'index') : Diablo
@@ -100,9 +106,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Get Act Information
+     * Get Act Information.
      *
      * @param $act
+     *
      * @return Diablo
      */
     public function act(int $act) : Diablo
@@ -113,9 +120,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Select season to query
+     * Select season to query.
      *
      * @param $season
+     *
      * @return Diablo
      */
     public function season(int $season) : Diablo
@@ -126,9 +134,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Select era to query
+     * Select era to query.
      *
      * @param $era
+     *
      * @return Diablo
      */
     public function era(int $era) : Diablo
@@ -139,7 +148,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve barbarian rankings
+     * Retrieve barbarian rankings.
      *
      * @return Diablo
      */
@@ -151,7 +160,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve crusader rankings
+     * Retrieve crusader rankings.
      *
      * @return Diablo
      */
@@ -163,7 +172,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve demonhunter rankings
+     * Retrieve demonhunter rankings.
      *
      * @return Diablo
      */
@@ -175,7 +184,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve monk rankings
+     * Retrieve monk rankings.
      *
      * @return Diablo
      */
@@ -187,7 +196,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve witchdoctor rankings
+     * Retrieve witchdoctor rankings.
      *
      * @return Diablo
      */
@@ -199,7 +208,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve wizard rankings
+     * Retrieve wizard rankings.
      *
      * @return Diablo
      */
@@ -211,9 +220,10 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve team rankings by size
+     * Retrieve team rankings by size.
      *
      * @param $size
+     *
      * @return Diablo
      */
     public function team(int $size) : Diablo
@@ -224,7 +234,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve achievement point rankings
+     * Retrieve achievement point rankings.
      *
      * @return Diablo
      */
@@ -236,7 +246,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve the season index
+     * Retrieve the season index.
      *
      * @return Diablo
      */
@@ -248,7 +258,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Retrieve the era index
+     * Retrieve the era index.
      *
      * @return Diablo
      */
@@ -260,7 +270,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Set the query to softcore
+     * Set the query to softcore.
      *
      * @return Diablo
      */
@@ -272,7 +282,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Set the query to hardcore
+     * Set the query to hardcore.
      *
      * @return Diablo
      */
@@ -284,7 +294,7 @@ class Diablo extends BattleNet
     }
 
     /**
-     * Return character type string
+     * Return character type string.
      */
     public function isHardcore() : string
     {

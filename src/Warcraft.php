@@ -7,9 +7,10 @@ use johnleider\BattleNet\Requests\BattleNet;
 class Warcraft extends BattleNet
 {
     /**
-     * Get Achievement Data
+     * Get Achievement Data.
      *
      * @param $id
+     *
      * @return Warcraft
      */
     public function getAchievement(int $id) : Warcraft
@@ -20,9 +21,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Auction Data
+     * Get Auction Data.
      *
      * @param $realm
+     *
      * @return Warcraft
      */
     public function getAuctionData(string $realm) : Warcraft
@@ -33,9 +35,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Battle Pet Ability Information
+     * Get Battle Pet Ability Information.
      *
      * @param $abilityId
+     *
      * @return Warcraft
      */
     public function getBattlePetAbility(int $abilityId) : Warcraft
@@ -46,9 +49,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Battle Pet Species Information
+     * Get Battle Pet Species Information.
      *
      * @param $speciesId
+     *
      * @return Warcraft
      */
     public function getBattlePetSpecies(int $speciesId) : Warcraft
@@ -59,9 +63,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Battle Pet Stats Information
+     * Get Battle Pet Stats Information.
      *
      * @param $speciesId
+     *
      * @return Warcraft
      */
     public function getBattlePetStats(int $speciesId) : Warcraft
@@ -72,9 +77,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Challenge Leaderboards for a Realm
+     * Get Challenge Leaderboards for a Realm.
      *
      * @param $realm
+     *
      * @return Warcraft
      */
     public function getChallengeRealm(string $realm) : Warcraft
@@ -85,7 +91,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Challenge Leaderboards for the Region
+     * Get Challenge Leaderboards for the Region.
      * 
      * @return Warcraft
      */
@@ -97,11 +103,12 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get a Character Profile
+     * Get a Character Profile.
      *
      * @param $realm
      * @param $characterName
      * @param array $fields
+     *
      * @return Warcraft
      */
     public function getCharacterProfile(string $realm, string $characterName, array $fields = []) : Warcraft
@@ -112,9 +119,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Item Information
+     * Get Item Information.
      *
      * @param $itemId
+     *
      * @return Warcraft
      */
     public function getItem(int $itemId) : Warcraft
@@ -125,9 +133,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Set Item Information
+     * Get Set Item Information.
      *
      * @param $setId
+     *
      * @return Warcraft
      */
     public function getSetItem(int $setId) : Warcraft
@@ -138,11 +147,12 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Guild Information
+     * Get Guild Information.
      *
      * @param $realm
      * @param $guildName
      * @param array $fields
+     *
      * @return Warcraft
      */
     public function getGuildProfile(string $realm, string $guildName, array $fields = []) : Warcraft
@@ -153,9 +163,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Leaderboard Information
+     * Get Leaderboard Information.
      *
      * @param $bracket
+     *
      * @return Warcraft
      */
     public function getLeaderboards(string $bracket) : Warcraft
@@ -166,9 +177,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Quest Information
+     * Get Quest Information.
      *
      * @param $questId
+     *
      * @return Warcraft
      */
     public function getQuest(int $questId) : Warcraft
@@ -179,7 +191,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Realm Status Information
+     * Get Realm Status Information.
      *
      * @return Warcraft
      */
@@ -191,9 +203,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Recipe Information
+     * Get Recipe Information.
      *
      * @param $recipeId
+     *
      * @return Warcraft
      */
     public function getRecipe(int $recipeId) : Warcraft
@@ -204,9 +217,10 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Spell Information
+     * Get Spell Information.
      *
      * @param $spellId
+     *
      * @return Warcraft
      */
     public function getSpell(int $spellId) : Warcraft
@@ -217,7 +231,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Battlegroups List
+     * Get Battlegroups List.
      * 
      * @return Warcraft
      */
@@ -229,7 +243,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Character Races List
+     * Get Character Races List.
      * 
      * @return Warcraft
      */
@@ -241,7 +255,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Character Classes List
+     * Get Character Classes List.
      * 
      * @return Warcraft
      */
@@ -253,7 +267,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Character Achievements List
+     * Get Character Achievements List.
      *
      * @return Warcraft
      */
@@ -265,7 +279,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Guild Rewards List
+     * Get Guild Rewards List.
      * 
      * @return Warcraft
      */
@@ -277,7 +291,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Guild Perks List
+     * Get Guild Perks List.
      * 
      * @return Warcraft
      */
@@ -289,7 +303,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Guild Achievements List
+     * Get Guild Achievements List.
      * 
      * @return Warcraft
      */
@@ -301,7 +315,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Item Classes List
+     * Get Item Classes List.
      * 
      * @return Warcraft
      */
@@ -313,7 +327,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Talents List
+     * Get Talents List.
      * 
      * @return Warcraft
      */
@@ -325,7 +339,7 @@ class Warcraft extends BattleNet
     }
 
     /**
-     * Get Pet Types List
+     * Get Pet Types List.
      *
      * @return Warcraft
      */
