@@ -240,6 +240,8 @@ abstract class BattleNet
     public function setJsonP(string $jsonP)
     {
         $this->jsonP = $jsonP;
+
+        return $this;
     }
 
     /**
@@ -250,6 +252,8 @@ abstract class BattleNet
     public function setLocale(string $locale)
     {
         $this->locale = $locale;
+
+        return $this;
     }
 
     /**
@@ -260,6 +264,8 @@ abstract class BattleNet
     public function setRegion(string $region)
     {
         $this->region = $region;
+
+        return $this;
     }
 
     /**
