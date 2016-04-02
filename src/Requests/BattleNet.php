@@ -2,7 +2,7 @@
 
 namespace johnleider\BattleNet\Requests;
 
-use GuzzleHttp\{Client, Pool, Promise};
+use GuzzleHttp\{Client, Pool};
 use GuzzleHttp\Psr7\Request;
 use johnleider\BattleNet\Enums\Scopes;
 use Psr\Http\Message\StreamInterface;
@@ -208,9 +208,9 @@ abstract class BattleNet
      */
     public function all() : array
     {
-        $response = [];
+        $uris = $this->uris;
 
-        $requests = function ($uris) {
+        $requests = function () use ($uris) {
             foreach ($uris as $uri) {
                 yield new Request('GET',
                     $this->getRequestUri($uri)
@@ -218,18 +218,7 @@ abstract class BattleNet
             }
         };
 
-        $pool = new Pool($this->client, $requests($this->uris), [
-            'fulfilled' => function ($data) use (&$response) {
-                $data = json_decode($data->getBody()->getContents());
-
-                $response[] = $data;
-            },
-        ]);
-
-        $promise = $pool->promise();
-        $promise->wait();
-
-        return $response;
+        return Pool::batch($this->client, $requests());
     }
 
     /**
