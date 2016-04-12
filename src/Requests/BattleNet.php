@@ -155,9 +155,7 @@ abstract class BattleNet
     {
         $this->buildQuery($options);
 
-        $response = count($this->uris) == 1
-            ? $this->first()
-            : $this->all();
+        $response = $this->all();
 
         $this->uris = [];
 
@@ -183,22 +181,6 @@ abstract class BattleNet
         }
 
         $this->query = array_merge($query, $options);
-    }
-
-    /**
-     * Return the first uri
-     *
-     * @return Response
-     */
-    public function first()
-    {
-        $response = $this->client->get(
-            $this->getRequestUri(array_shift($this->uris))
-        )
-            ->getBody()
-            ->getContents();
-
-        return json_decode($response);
     }
 
     /**
