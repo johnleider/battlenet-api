@@ -16,7 +16,7 @@ class Starcraft extends BattleNet
      */
     public function getProfile(int $id, string $region, string $name) : Starcraft
     {
-        $this->uris[] = "sc2/profile/{$id}/{$region}/{$name}";
+        $this->addToRequest("sc2/profile/{$id}/{$region}/{$name}");
 
         return $this;
     }
@@ -31,7 +31,7 @@ class Starcraft extends BattleNet
      */
     public function getProfileLadders(int $id, string $region, string $name) : Starcraft
     {
-        $this->uris[] = "sc2/profile/{$id}/{$region}/{$name}/ladders";
+        $this->addToRequest("sc2/profile/{$id}/{$region}/{$name}/ladders");
 
         return $this;
     }
@@ -46,7 +46,7 @@ class Starcraft extends BattleNet
      */
     public function getProfileMatches(int $id, string $region, string $name) : Starcraft
     {
-        $this->uris[] = "sc2/profile/{$id}/{$region}/{$name}/matches";
+        $this->addToRequest("sc2/profile/{$id}/{$region}/{$name}/matches");
 
         return $this;
     }
@@ -59,7 +59,7 @@ class Starcraft extends BattleNet
      */
     public function getLadder(int $id) : Starcraft
     {
-        $this->uris[] = "sc2/ladder/{$id}";
+        $this->addToRequest("sc2/ladder/{$id}");
 
         return $this;
     }
@@ -71,7 +71,7 @@ class Starcraft extends BattleNet
      */
     public function getAchievements() : Starcraft
     {
-        $this->uris[] = 'sc2/data/achievements';
+        $this->addToRequest('sc2/data/achievements');
 
         return $this;
     }
@@ -83,7 +83,7 @@ class Starcraft extends BattleNet
      */
     public function getRewards() : Starcraft
     {
-        $this->uris[] = 'sc2/data/rewards';
+        $this->addToRequest('sc2/data/rewards');
 
         return $this;
     }

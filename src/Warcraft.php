@@ -14,7 +14,7 @@ class Warcraft extends BattleNet
      */
     public function getAchievement(int $id) : Warcraft
     {
-        $this->uris[] = "wow/achievement/{$id}";
+        $this->addToRequest("wow/achievement/{$id}");
 
         return $this;
     }
@@ -27,7 +27,7 @@ class Warcraft extends BattleNet
      */
     public function getAuctionData(string $realm) : Warcraft
     {
-        $this->uris[] = "wow/auction/data/{$realm}";
+        $this->addToRequest("wow/auction/data/{$realm}");
 
         return $this;
     }
@@ -40,7 +40,7 @@ class Warcraft extends BattleNet
      */
     public function getBattlePetAbility(int $abilityId) : Warcraft
     {
-        $this->uris[] = "wow/battlepet/ability/{$abilityId}";
+        $this->addToRequest("wow/battlepet/ability/{$abilityId}");
 
         return $this;
     }
@@ -53,7 +53,7 @@ class Warcraft extends BattleNet
      */
     public function getBattlePetSpecies(int $speciesId) : Warcraft
     {
-        $this->uris[] = "wow/battlepet/species/{$speciesId}";
+        $this->addToRequest("wow/battlepet/species/{$speciesId}");
 
         return $this;
     }
@@ -66,7 +66,7 @@ class Warcraft extends BattleNet
      */
     public function getBattlePetStats(int $speciesId) : Warcraft
     {
-        $this->uris[] = "wow/battlepet/stats/{$speciesId}";
+        $this->addToRequest("wow/battlepet/stats/{$speciesId}");
 
         return $this;
     }
@@ -79,7 +79,7 @@ class Warcraft extends BattleNet
      */
     public function getChallengeRealm(string $realm) : Warcraft
     {
-        $this->uris[] = "wow/challenge/{$realm}";
+        $this->addToRequest("wow/challenge/{$realm}");
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Warcraft extends BattleNet
      */
     public function getChallengeRegion() : Warcraft
     {
-        $this->uris[] = 'wow/challenge/region';
+        $this->addToRequest('wow/challenge/region');
 
         return $this;
     }
@@ -106,7 +106,7 @@ class Warcraft extends BattleNet
      */
     public function getCharacterProfile(string $realm, string $characterName, array $fields = []) : Warcraft
     {
-        $this->uris[] = "wow/character/{$realm}/{$characterName}?".http_build_query($fields);
+        $this->addToRequest("wow/character/{$realm}/{$characterName}?".http_build_query($fields));
 
         return $this;
     }
@@ -119,7 +119,7 @@ class Warcraft extends BattleNet
      */
     public function getItem(int $itemId) : Warcraft
     {
-        $this->uris[] = "wow/item/{$itemId}";
+        $this->addToRequest("wow/item/{$itemId}");
 
         return $this;
     }
@@ -132,7 +132,7 @@ class Warcraft extends BattleNet
      */
     public function getSetItem(int $setId) : Warcraft
     {
-        $this->uris[] = "wow/item/set/{$setId}";
+        $this->addToRequest("wow/item/set/{$setId}");
 
         return $this;
     }
@@ -147,7 +147,7 @@ class Warcraft extends BattleNet
      */
     public function getGuildProfile(string $realm, string $guildName, array $fields = []) : Warcraft
     {
-        $this->uris[] = "wow/guild/{$realm}/{$guildName}?".http_build_query($fields);
+        $this->addToRequest("wow/guild/{$realm}/{$guildName}?".http_build_query($fields));
 
         return $this;
     }
@@ -160,7 +160,7 @@ class Warcraft extends BattleNet
      */
     public function getLeaderboards(string $bracket) : Warcraft
     {
-        $this->uris[] = "wow/leaderboard/{$bracket}";
+        $this->addToRequest("wow/leaderboard/{$bracket}");
 
         return $this;
     }
@@ -173,7 +173,7 @@ class Warcraft extends BattleNet
      */
     public function getQuest(int $questId) : Warcraft
     {
-        $this->uris[] = "wow/quest/{$questId}";
+        $this->addToRequest("wow/quest/{$questId}");
 
         return $this;
     }
@@ -185,7 +185,7 @@ class Warcraft extends BattleNet
      */
     public function getRealmStatus() : Warcraft
     {
-        $this->uris[] = 'wow/realm/status';
+        $this->addToRequest('wow/realm/status');
 
         return $this;
     }
@@ -198,7 +198,7 @@ class Warcraft extends BattleNet
      */
     public function getRecipe(int $recipeId) : Warcraft
     {
-        $this->uris[] = "wow/recipe/{$recipeId}";
+        $this->addToRequest("wow/recipe/{$recipeId}");
 
         return $this;
     }
@@ -211,7 +211,7 @@ class Warcraft extends BattleNet
      */
     public function getSpell(int $spellId) : Warcraft
     {
-        $this->uris[] = "wow/spell/{$spellId}";
+        $this->addToRequest("wow/spell/{$spellId}");
 
         return $this;
     }
@@ -223,7 +223,7 @@ class Warcraft extends BattleNet
      */
     public function getBattlegroups() : Warcraft
     {
-        $this->uris[] = 'wow/data/battlegroups/';
+        $this->addToRequest('wow/data/battlegroups/');
 
         return $this;
     }
@@ -235,7 +235,7 @@ class Warcraft extends BattleNet
      */
     public function getCharacterRaces() : Warcraft
     {
-        $this->uris[] = 'wow/data/character/races';
+        $this->addToRequest('wow/data/character/races');
 
         return $this;
     }
@@ -247,7 +247,7 @@ class Warcraft extends BattleNet
      */
     public function getCharacterClasses() : Warcraft
     {
-        $this->uris[] = 'wow/data/character/classes';
+        $this->addToRequest('wow/data/character/classes');
 
         return $this;
     }
@@ -259,7 +259,7 @@ class Warcraft extends BattleNet
      */
     public function getCharacterAchievements() : Warcraft
     {
-        $this->uris[] = 'wow/data/character/achievements';
+        $this->addToRequest('wow/data/character/achievements');
 
         return $this;
     }
@@ -271,7 +271,7 @@ class Warcraft extends BattleNet
      */
     public function getGuildRewards() : Warcraft
     {
-        $this->uris[] = 'wow/data/guild/rewards';
+        $this->addToRequest('wow/data/guild/rewards');
 
         return $this;
     }
@@ -283,7 +283,7 @@ class Warcraft extends BattleNet
      */
     public function getGuildPerks() : Warcraft
     {
-        $this->uris[] = 'wow/data/guild/perks';
+        $this->addToRequest('wow/data/guild/perks');
 
         return $this;
     }
@@ -295,7 +295,7 @@ class Warcraft extends BattleNet
      */
     public function getGuildAchievements() : Warcraft
     {
-        $this->uris[] = 'wow/data/guild/achievements';
+        $this->addToRequest('wow/data/guild/achievements');
 
         return $this;
     }
@@ -307,7 +307,7 @@ class Warcraft extends BattleNet
      */
     public function getItemClasses() : Warcraft
     {
-        $this->uris[] = 'wow/data/item/classes';
+        $this->addToRequest('wow/data/item/classes');
 
         return $this;
     }
@@ -319,7 +319,7 @@ class Warcraft extends BattleNet
      */
     public function getTalents() : Warcraft
     {
-        $this->uris[] = 'wow/data/talents';
+        $this->addToRequest('wow/data/talents');
 
         return $this;
     }
@@ -331,7 +331,7 @@ class Warcraft extends BattleNet
      */
     public function getPetTypes() : Warcraft
     {
-        $this->uris[] = 'wow/data/pet/types';
+        $this->addToRequest('wow/data/pet/types');
 
         return $this;
     }
